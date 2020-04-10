@@ -45,13 +45,6 @@
               </v-btn>
             </v-container>
 
-            
-            
-            <!-- <v-text-field
-              label="数字を設定してね！"
-              outlined
-              v-model.number="my_number"
-            ></v-text-field> -->
           <v-row>
             <v-col cols="6">
                 <v-btn v-on:click="click_set" fab large outlined color="light-blue lighten-1">設定</v-btn>
@@ -77,11 +70,6 @@
               </v-btn>
             </v-container>
 
-            <!-- <v-text-field
-              label="数字を当てよう！"
-              outlined
-              v-model.number="judge_number"
-            ></v-text-field> -->
           </v-col>
           <v-col class="text-center" cols="12">
             <div >
@@ -127,20 +115,7 @@
 </template>
 
 <script>
-  // export default {
-  //   name: "number_btn",
-  //   data: () => ({
-  //     to_disable: false, 
-  //   }),
-  //   methods: {
-  //     click_my_button_number: function(index) {
-  //     //ボタンをdisableにする
-  //     this.to_disable = true
-  //     //入力された値をmy_numberに加える        
-  //     App.my_number_list.push(index);    
-  //     },
-  //   },
-  // };
+
 
   export default {
     name: 'App',

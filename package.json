@@ -43,5 +43,16 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.format.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  "editor.formatOnSave": true,
+  "prettier.eslintIntegration": true
 }
