@@ -26,7 +26,7 @@
               ></v-select>
             </v-col>
              <v-col class="text-center" cols="12" >
-                 <v-btn v-on:click="click_play" depressed large color="primary">遊ぶ</v-btn>
+                 <v-btn v-on:click="click_play" fab large outlined color="light-blue lighten-1">遊ぶ</v-btn>
              </v-col>
         </v-row>
 
@@ -39,7 +39,7 @@
                 class="mx-2"
                
                 :disabled="button_number.disabled"
-                fab large color="cyan"
+                fab large outlined color="light-blue lighten-1"
               >
                 {{index}}
               </v-btn>
@@ -54,10 +54,10 @@
             ></v-text-field> -->
           <v-row>
             <v-col cols="6">
-                <v-btn v-on:click="click_set" depressed large color="primary">設定</v-btn>
+                <v-btn v-on:click="click_set" fab large outlined color="light-blue lighten-1">設定</v-btn>
             </v-col>
             <v-col cols="6">
-                <v-btn v-on:click="click_auto_set" depressed large color="primary">自動設定</v-btn>
+                <v-btn v-on:click="click_auto_set" fab large outlined color="light-blue lighten-1">自動設定</v-btn>
             </v-col>            
           </v-row>     
           </v-col>
@@ -71,7 +71,7 @@
                 v-on:click="click_judge_button_number(index)" 
                 class="mx-2" 
                 :disabled="button_number.disabled"
-                fab large color="cyan"
+                fab large color="cyan lighten-4"
               >
                   {{index}}
               </v-btn>
