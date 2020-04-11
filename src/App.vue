@@ -15,6 +15,81 @@
         </v-row>  
       </v-container>
 
+      <v-container v-if="ok00" grid-list-lg>
+        <v-row align="center" justify="center">
+          ルール
+        </v-row>
+        <v-row align="center" justify="center">
+          遊ぶモード
+        </v-row>
+        <v-row align="center" justify="center">
+          <v-col cols="4">
+            <v-row align="center" justify="center">
+              <v-btn
+               v-on:click="click_VS_com_mode_button()"
+               class="mx-2"
+               fab large 
+               outlined
+               color="light-blue lighten-1"
+              >
+                VS com
+              </v-btn>
+              <v-btn
+               v-on:click="click_online_mode_button()"
+               class="mx-2"
+               fab large 
+               outlined
+               color="light-blue lighten-1"
+              
+              >
+                online
+              </v-btn>
+              <v-btn
+               v-on:click="click_judge_mode_button()"
+               class="mx-2"
+               fab large 
+               outlined
+               color="light-blue lighten-1"
+              >
+                判定
+              </v-btn>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <v-container>
+         <v-row v-if="ok01" justify="center">
+          <v-row>
+            <v-col 
+              class="title font-weight-bold text-center light-blue--text text--lighten-1"
+              cols="12"
+              >
+              何桁で遊ぶ?
+            </v-col>
+          </v-row>
+        </v-row>
+        <v-row v-if="ok01" justify="center">
+            <v-col 
+              v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
+              cols="2"              
+            >
+              <v-row justify="center">
+                <v-btn
+                  id="number_btn"
+                  v-on:click="click_auto_play_button_number(play_btn_number)"
+                  class="mx-2"
+                  fab large 
+                  outlined
+                  color="light-blue lighten-1"
+                >
+                  {{play_btn_number}}
+                </v-btn>  
+              </v-row>
+            </v-col>
+        </v-row>  
+      </v-container>
+
       <v-container grid-list-lg>
         <v-row v-if="ok0" justify="center">
           <v-row>
@@ -155,7 +230,7 @@
         </v-row>
 
         <v-row v-if="ok4" justify="center">   
-          <v-text class="red--text">※※正しい桁数を入力してください</v-text>       
+          <v-text class="red--text">※※ごめんね<br>まだそのモードは追加されてないんだ</v-text>       
         </v-row>
       </v-container>
 
@@ -197,6 +272,19 @@
     name: 'App',
 
     methods: {
+      click_VS_com_mode_button: function(){
+        this.ok00 = false
+        this.ok01 = true
+      },
+      click_online_mode_button: function(){
+        this.ok00 = false
+        this.ok4 = true
+      },
+      click_judge_mode_button: function(){
+        this.ok00 = false
+        this.ok0 = true
+      },
+
       click_play: function(){
         this.ok0 = false
         this.ok1 = true
@@ -219,7 +307,13 @@
           this.ok4 = true
         }
       },
-      click_auto_set: function(){
+      click_auto_play_button_number: function(play_btn_number){
+        this.ok01 = false
+        this.ok2 = true
+        this.digit_number = play_btn_number
+        this.my_number_lists = new Array(this.digit_number)
+        this.judge_number_lists = new Array(this.digit_number)
+
         var max_index = 10;
         const auto_my_numbers = [];
         const numbers = [0,1,2,3,4,5,6,7,8,9];
@@ -230,22 +324,12 @@
           max_index--
         }
         this.my_number = auto_my_numbers.join("");
-
-        if(this.digit_number === String(this.my_number).length) {
-          this.ok2 = true
-          this.ok1 = false
-          this.ok4 = false
-        }
-        else {
-          this.ok4 = true
-        }
       },
 
       click_play_button_number: function(play_btn_number){
         this.ok0 = false
         this.ok1 = true
         this.digit_number = play_btn_number
-        console.log(play_btn_number)
         this.my_number_lists = new Array(this.digit_number)
         this.judge_number_lists = new Array(this.digit_number)
       },
@@ -350,7 +434,8 @@
         ],
       numbers: [3,4,5],
       to_disable: false,
-      ok0: true,
+      ok00: true, 
+      ok0: false,
       ok1: false,
       ok2: false,
       ok3: false,
