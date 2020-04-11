@@ -32,43 +32,70 @@
 
         <v-row v-if="ok1" justify="center">
           <v-col cols="2">
-            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">
-              <v-btn 
+            <v-row>
+              {{my_number_list}}
+            </v-row>
+            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
+              <v-btn v-if="!(button_number.clicked)" 
                 id="number_btn"
                 v-on:click="click_my_button_number(index)"
                 class="mx-2"
-               
-                :disabled="button_number.disabled"
-                fab large outlined color="light-blue lighten-1"
+                fab large 
+
+                outlined
+                color="light-blue lighten-1"
               >
                 {{index}}
               </v-btn>
+              <v-btn v-else
+                id="number_btn"
+                v-on:click="click_my_button_number(index)"
+                class="mx-2"
+                fab large dark color="cyan lighten-5"
+              >               
+                {{index}}              
+              </v-btn>
             </v-container>
-
-          <v-row>
-            <v-col cols="6">
-                <v-btn v-on:click="click_set" fab large outlined color="light-blue lighten-1">設定</v-btn>
-            </v-col>
-            <v-col cols="6">
-                <v-btn v-on:click="click_auto_set" fab large outlined color="light-blue lighten-1">自動設定</v-btn>
-            </v-col>            
-          </v-row>     
+          
+            <v-row>
+              <v-col cols="6">
+                  <v-btn v-on:click="click_set" fab large outlined color="light-blue lighten-1">設定</v-btn>
+              </v-col>
+              <v-col cols="6">
+                  <v-btn v-on:click="click_auto_set" fab large outlined color="light-blue lighten-1">自動設定</v-btn>
+              </v-col>            
+            </v-row>     
           </v-col>
         </v-row>
 
         <v-row v-if="ok2" justify="center">
           <v-col cols="2">
-            
-            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">
-              <v-btn 
-                v-on:click="click_judge_button_number(index)" 
-                class="mx-2" 
-                :disabled="button_number.disabled"
-                fab large color="cyan lighten-4"
+            <v-col cols="2">
+            <v-row>
+              {{judge_number_list}}
+            </v-row>
+            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
+              <v-btn v-if="!(button_number.clicked)" 
+                id="number_btn"
+                v-on:click="click_judge_button_number(index)"
+                class="mx-2"
+                fab large 
+
+                outlined
+                color="light-blue lighten-1"
               >
-                  {{index}}
+                {{index}}
+              </v-btn>
+              <v-btn v-else
+                id="number_btn"
+                v-on:click="click_judge_button_number(index)"
+                class="mx-2"
+                fab large dark color="cyan lighten-5"
+              >               
+                {{index}}              
               </v-btn>
             </v-container>
+          </v-col>
 
           </v-col>
           <v-col class="text-center" cols="12">
@@ -129,7 +156,7 @@
       click_set: function(){
         this.my_number = this.my_number_list.join("");
         for(var i in this.button_numbers) {
-          this.button_numbers[i].disabled = false
+          this.button_numbers[i].clicked = false
         }
         if(this.digit_number === String(this.my_number).length) {
           this.ok2 = true
@@ -162,28 +189,36 @@
         }
       },
 
-      click_my_button_number: function(index) {
-        //ボタンをdisableにする
-        this.button_numbers[index].disabled = true
-        console.log(this.button_numbers[index].disabled)
-        //入力された値をmy_numberに加える        
-        this.my_number_list.push(index);
-        
+      click_my_button_number: function(btn_index) {
+        //my＿number＿listのindexが等しい時に
+        if (this.button_numbers[btn_index].clicked === false) {
+          this.button_numbers[btn_index].clicked = true
+          this.my_number_list.push(btn_index)
+        }
+        else {
+          this.button_numbers[btn_index].clicked = false
+          var my_num_index = this.my_number_list.indexOf(btn_index)
+          this.my_number_list.splice(my_num_index,1) 
+        } 
       },
 
-      click_judge_button_number: function(index) {
-        //ボタンをdisableにする
-        this.button_numbers[index].disabled = true
-        //入力された値をmy_numberに加える        
-        this.judge_number_list.push(index);
-        
+      click_judge_button_number: function(btn_index) {
+         if (this.button_numbers[btn_index].clicked === false) {
+          this.button_numbers[btn_index].clicked = true
+          this.judge_number_list.push(btn_index)
+        }
+        else {
+          this.button_numbers[btn_index].clicked = false
+          var judge_num_index = this.judge_number_list.indexOf(btn_index)
+          this.judge_number_list.splice(judge_num_index,1) 
+        } 
       },
 
       click_judge: function() {
 
         this.judge_number = this.judge_number_list.join("");
-        for(var x in this.button_numbers) {
-          this.button_numbers[x].disabled = false
+        for(var i in this.button_numbers) {
+          this.button_numbers[i].clicked = false
         }
         if(this.digit_number === String(this.judge_number).length){
           this.ok3 = true
@@ -193,7 +228,7 @@
           var my_number = this.my_number
           var judge_number = this.judge_number
 
-          for (var i = 0; i < this.digit_number; i++) {
+          for (var x = 0; x < this.digit_number; x++) {
             my_number_list.unshift(my_number % 10)
             judge_number_list.unshift(judge_number % 10)
             my_number = parseInt(my_number / 10)
@@ -234,16 +269,16 @@
     },
     data: () => ({
       button_numbers: [
-        {value: 0, disabled: false},
-        {value: 1, disabled: false},
-        {value: 2, disabled: false},
-        {value: 3, disabled: false},
-        {value: 4, disabled: false},
-        {value: 5, disabled: false},
-        {value: 6, disabled: false},
-        {value: 7, disabled: false},
-        {value: 8, disabled: false},
-        {value: 9, disabled: false},
+        {value: 0, clicked: false},
+        {value: 1, clicked: false},
+        {value: 2, clicked: false},
+        {value: 3, clicked: false},
+        {value: 4, clicked: false},
+        {value: 5, clicked: false},
+        {value: 6, clicked: false},
+        {value: 7, clicked: false},
+        {value: 8, clicked: false},
+        {value: 9, clicked: false},
         ],
       numbers: [3,4,5],
       to_disable: false,
