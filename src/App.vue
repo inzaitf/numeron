@@ -77,40 +77,45 @@
           </v-col>
 
         </v-row>
-        <v-row v-if="ok1" justify="center">
-          <v-col class="text-center" cols="2">
-            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
-              <v-btn v-if="!(button_number.clicked)" 
-                id="number_btn"
-                v-on:click="click_my_button_number(index)"
-                class="mx-2"
-                fab large 
-
-                outlined
-                color="light-blue lighten-1"
-              >
-                {{index}}
-              </v-btn>
-              <v-btn v-else
-                id="number_btn"
-                v-on:click="click_my_button_number(index)"
-                class="mx-2"
-                fab large dark color="cyan lighten-5"
-              >               
-                {{index}}              
-              </v-btn>
-            </v-container>
-          
-            <v-row>
-              <v-col cols="6">
+        <v-container v-if="ok1">
+          <v-row align="center" justify="center">
+            <v-col cols="4">
+              <v-row align="center" justify="center">             
+                <v-col v-for="(button_number, index) in button_numbers" :key="button_number.id" cols="4">
+                  <v-row align="center" justify="center">
+                    <v-btn v-if="!(button_number.clicked)" 
+                        id="number_btn"
+                        v-on:click="click_my_button_number(index)"
+                        class="mx-2"
+                        fab large 
+                        outlined
+                        color="light-blue lighten-1"
+                    >
+                      {{index}}
+                    </v-btn>
+                    <v-btn v-else
+                        id="number_btn"
+                        v-on:click="click_my_button_number(index)"
+                        class="mx-2"
+                        fab large dark color="cyan lighten-5"
+                    >               
+                      {{index}}              
+                    </v-btn>
+                  </v-row>
+                </v-col>             
+                <v-col cols="6">
                   <v-btn v-on:click="click_set" fab large outlined color="light-blue lighten-1">設定</v-btn>
-              </v-col>
+                </v-col>               
+              </v-row>            
+            </v-col>                     
+          </v-row>  
+
+            <!-- <v-row>
               <v-col cols="6">
                   <v-btn v-on:click="click_auto_set" fab large outlined color="light-blue lighten-1">自動設定</v-btn>
               </v-col>            
-            </v-row>     
-          </v-col>
-        </v-row>
+            </v-row>      -->
+        </v-container>
 
         <v-row v-if="ok2" justify="center">
           <v-col cols="2">
