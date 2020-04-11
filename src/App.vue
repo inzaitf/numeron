@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <div id="app" >
-
       <v-container>
         <v-row>
           <v-col 
@@ -122,35 +121,21 @@
         </v-row>  
         
         <v-row v-if="ok1" justify="center"> 
-          <v-col 
-              v-for="i in digit_number" :key="i.id"
-              cols="2"
-              >
-              <v-card               
-                color="lightblue lighten-1"
-                style="border: solid 1px #29B6F6; height: 100px;"
-              >
-              <v-row
-              style="height: 100px;"
-              justify="center"
-              align="center"
-              >
-                <v-col
-                cols="6"     
-                class="text-center"                          
+          <v-col v-for="i in digit_number" :key="i.id" cols="2">
+              <v-card color="lightblue lighten-1" style="border: solid 1px #29B6F6; height: 100px;">
+                <v-row
+                style="height: 100px;"
+                justify="center"
+                align="center"
                 >
-                <h2 
-                class="display-3 font-weight-bold light-blue--text text--lighten-3"
-                >
-              {{my_number_lists[i-1]}}
-
-                </h2>
-
-                </v-col>
-              </v-row>
+                  <v-col cols="6" class="text-center">
+                    <h2 class="display-3 font-weight-bold light-blue--text text--lighten-3">
+                      {{my_number_lists[i-1]}}
+                    </h2>
+                  </v-col>
+                </v-row>
               </v-card>
           </v-col>
-
         </v-row>
         <v-container v-if="ok1">
           <v-row align="center" justify="center">
@@ -184,83 +169,87 @@
               </v-row>            
             </v-col>                     
           </v-row>  
-
-            <!-- <v-row>
-              <v-col cols="6">
-                  <v-btn v-on:click="click_auto_set" fab large outlined color="light-blue lighten-1">自動設定</v-btn>
-              </v-col>            
-            </v-row>      -->
         </v-container>
 
-        <v-row v-if="ok2" justify="center">
-          <v-col cols="2">
-            <v-col cols="2">
-            <v-row>
-              {{judge_number_lists}}
-            </v-row>
-            <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
-              <v-btn v-if="!(button_number.clicked)" 
-                id="number_btn"
-                v-on:click="click_judge_button_number(index)"
-                class="mx-2"
-                fab large 
-
-                outlined
-                color="light-blue lighten-1"
-              >
-                {{index}}
-              </v-btn>
-              <v-btn v-else
-                id="number_btn"
-                v-on:click="click_judge_button_number(index)"
-                class="mx-2"
-                fab large dark color="cyan lighten-5"
-              >               
-                {{index}}              
-              </v-btn>
-            </v-container>
-          </v-col>
-
-          </v-col>
-          <v-col class="text-center" cols="12">
-            <div >
-              <v-btn v-on:click="click_judge" depressed large color="primary">判定</v-btn>
-            </div>
+        <v-row v-if="ok2" justify="center"> 
+          <v-col v-for="i in digit_number" :key="i.id" cols="2">
+              <v-card color="lightblue lighten-1" style="border: solid 1px #29B6F6; height: 100px;">
+                <v-row
+                style="height: 100px;"
+                justify="center"
+                align="center"
+                >
+                  <v-col cols="6" class="text-center">
+                    <h2 class="display-3 font-weight-bold light-blue--text text--lighten-3">
+                      {{judge_number_lists[i-1]}}
+                    </h2>
+                  </v-col>
+                </v-row>
+              </v-card>
           </v-col>
         </v-row>
-
+        <v-container v-if="ok2">
+          <v-row align="center">
+            <v-row align="center" justify="center">
+              <v-col cols="4">
+                <v-row align="center" justify="center">             
+                  <v-col v-for="(button_number, index) in button_numbers" :key="button_number.id" cols="4">
+                    <v-row align="center" justify="center">
+                      <v-btn v-if="!(button_number.clicked)" 
+                          id="number_btn"
+                          v-on:click="click_judge_button_number(index)"
+                          class="mx-2"
+                          fab large 
+                          outlined
+                          color="light-blue lighten-1"
+                      >
+                        {{index}}
+                      </v-btn>
+                      <v-btn v-else
+                          id="number_btn"
+                          v-on:click="click_judge_button_number(index)"
+                          class="mx-2"
+                          fab large dark color="cyan lighten-5"
+                      >               
+                        {{index}}              
+                      </v-btn>
+                    </v-row>
+                  </v-col>             
+                  <v-col cols="6">
+                    <v-btn v-on:click="click_judge" fab large outlined color="light-blue lighten-1">判定</v-btn>
+                  </v-col>               
+                </v-row>          
+              </v-col> 
+            </v-row>
+              <v-row justify="end">
+                <v-col cols="12">
+                  <v-card
+                    class="mx-auto overflow-y-auto"
+                    v-if="ok3"
+                    id="scroll-target"
+                    max-height="300px"
+                  >
+                    <v-toolbar color="indigo" dark>
+                      <v-toolbar-title>履歴</v-toolbar-title>
+                    </v-toolbar>
+                    <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id">        
+                      <v-list-item-content>
+                        <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
+                      </v-list-item-content>
+                      <v-list-item-content>
+                        <v-list-item-title >{{judge_data.eat}}eat{{judge_data.bite}}bite!</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-card>
+                </v-col>
+              </v-row>
+          </v-row>  
+        </v-container>
+        <!-- エラー文章 -->
         <v-row v-if="ok4" justify="center">   
           <v-text class="red--text">※※ごめんね<br>まだそのモードは追加されてないんだ</v-text>       
         </v-row>
       </v-container>
-
-      <v-card
-        max-width="500"
-        class="mx-auto overflow-y-auto"
-        v-if="ok3"
-        id="scroll-target"
-        style="max-height: 200px"
-         
-      >
-        <v-toolbar
-          color="indigo"
-          dark
-        >
-          <v-toolbar-title>履歴</v-toolbar-title>
-        </v-toolbar>
-        <v-list-item
-          v-for="judge_data in judge_datas"
-          :key="judge_data.id"        
-        >
-        
-          <v-list-item-content>
-            <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title >{{judge_data.eat}}eat{{judge_data.bite}}bite!</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-card>
     </div>
   </v-app>
 </template>
@@ -294,17 +283,12 @@
       },
 
       click_set: function(){
+        this.ok2 = true
+        this.ok1 = false
+        this.ok4 = false
         this.my_number = this.my_number_lists.join("");
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
-        }
-        if(this.digit_number === String(this.my_number).length) {
-          this.ok2 = true
-          this.ok1 = false
-          this.ok4 = false
-        }
-        else {
-          this.ok4 = true
         }
       },
       click_auto_play_button_number: function(play_btn_number){
@@ -354,16 +338,32 @@
 
 
       click_judge_button_number: function(btn_index) {
-         if (this.button_numbers[btn_index].clicked === false) {
-          this.button_numbers[btn_index].clicked = true
-          this.judge_number_lists.push(btn_index)
-        }
-        else {
+        var judge_num_index = this.judge_number_lists.indexOf(btn_index)
+        if(this.button_numbers[btn_index].clicked === true) {
           this.button_numbers[btn_index].clicked = false
-          var judge_num_index = this.judge_number_lists.indexOf(btn_index)
-          this.judge_number_lists.splice(judge_num_index,1) 
-        } 
+          this.judge_number_lists[judge_num_index] = null
+        }else {
+          for (var i = 0; i < this.digit_number; i++) {
+            if(this.judge_number_lists[i] == null) {
+              this.button_numbers[btn_index].clicked = true  
+              this.judge_number_lists[i] = btn_index
+              break   
+            }
+          }
+        }
       },
+
+
+      //    if (this.button_numbers[btn_index].clicked === false) {
+      //     this.button_numbers[btn_index].clicked = true
+      //     this.judge_number_lists.push(btn_index)
+      //   }
+      //   else {
+      //     this.button_numbers[btn_index].clicked = false
+      //     var judge_num_index = this.judge_number_lists.indexOf(btn_index)
+      //     this.judge_number_lists.splice(judge_num_index,1) 
+      //   } 
+      // },
 
       click_judge: function() {
 
@@ -371,7 +371,7 @@
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
         }
-        if(this.digit_number === String(this.judge_number).length){
+
           this.ok3 = true
           this.ok4 = false
           var my_number_lists = []
@@ -379,13 +379,12 @@
           var my_number = this.my_number
           var judge_number = this.judge_number
 
-          for (var x = 0; x < this.digit_number; x++) {
+           for (var x = 0; x < this.digit_number; x++) {
             my_number_lists.unshift(my_number % 10)
             judge_number_lists.unshift(judge_number % 10)
             my_number = parseInt(my_number / 10)
             judge_number = parseInt(judge_number / 10)
           }
-
           var eat = 0
           var bite = 0
           for (var index_m in my_number_lists) {
@@ -397,7 +396,6 @@
                   bite++;
                 }
               }
-
             }
           }
           this.eat = eat
@@ -409,14 +407,7 @@
           }          
           this.judge_datas.push(judge_data_obj)
           this.judge_number_lists.length = 0
-
-
-
-        }
-        else {
-          this.ok4 = true
-        }
-      },
+      }
     },
     data: () => ({
       play_btn_numbers: [3,4,5],
