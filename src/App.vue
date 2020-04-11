@@ -17,18 +17,35 @@
 
       <v-container grid-list-lg>
         <v-row v-if="ok0" justify="center">
-            <v-col class="text-center" cols="2">
-              <v-select
-                :items="numbers"
-                label="何桁で遊ぶ？"
-                outlined
-                v-model.number="digit_number"
-              ></v-select>
+          <v-row>
+            <v-col 
+              class="title font-weight-bold text-center light-blue--text text--lighten-1"
+              cols="12"
+              >
+              何桁で遊ぶ?
             </v-col>
-             <v-col class="text-center" cols="12" >
-                 <v-btn v-on:click="click_play" fab large outlined color="light-blue lighten-1">遊ぶ</v-btn>
-             </v-col>
+          </v-row>
         </v-row>
+        <v-row v-if="ok0" justify="center">
+            <v-col 
+              v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
+              cols="2"              
+            >
+              <v-row justify="center">
+                <v-btn
+                  id="number_btn"
+                  v-on:click="click_play_button_number(play_btn_number)"
+                  class="mx-2"
+                  fab large 
+                  outlined
+                  color="light-blue lighten-1"
+                >
+                  {{play_btn_number}}
+                </v-btn>  
+              </v-row>
+            </v-col>
+        </v-row>  
+        
         <v-row v-if="ok1" justify="center"> 
           <v-col 
               v-for="i in digit_number" :key="i.id"
@@ -219,6 +236,15 @@
         }
       },
 
+      click_play_button_number: function(play_btn_number){
+        this.ok0 = false
+        this.ok1 = true
+        this.digit_number = play_btn_number
+        console.log(play_btn_number)
+        this.my_number_lists = new Array(this.digit_number)
+        this.judge_number_lists = new Array(this.digit_number)
+      },
+
       click_my_button_number: function(btn_index) {
         //桁数以上の数字を入力出来ないようにする
         var my_num_index = this.my_number_lists.indexOf(btn_index)
@@ -236,67 +262,7 @@
         }
       },
 
-              
 
-
-
-    //     for (my_number_list in this.my_number_lists) {
-    //       if(my_number_list === null) {
-    //         if (this.button_numbers[btn_index].clicked === false) {
-    //           this.button_numbers[btn_index].clicked = true  
-    //           my_number_list = btn_index
-    //           break   
-    //         }else {
-    //             this.button_numbers[btn_index].clicked = false            
-    //             my_number_list[my_num_index] = null
-    //             break
-    //           } 
-    //       }else {
-    //         if (this.button_numbers[btn_index].clicked === false) {
-
-    //         }
-    //       }
-    //         this.button_numbers[btn_index].clicked = false            
-    //         my_number_list[my_num_index] = null
-    //       }   
-            
-    //     }
-    // }
-
-      //       if (this.my_number_list === null) {
-      //         if (this.button_numbers[btn_index].clicked === false) {
-      //         this.button_numbers[btn_index].clicked = true       
-      //         this.my_number_lists[my_num_index] = btn_index
-      //         }else {
-      //           this.button_numbers[btn_index].clicked = false            
-      //           this.my_number_lists[my_num_index] = null
-      //         } 
-  
-      //       }else {
-      //         if (this.button_numbers[btn_index].clicked === true){
-      //         this.button_numbers[btn_index].clicked = false            
-      //         this.my_number_lists[my_num_index] = null
-      //         }
-      //       }
-      // },
-      //   var my_num_index = this.my_number_listss.indexOf(btn_index)
-      //   if (this.my_number_listss.length < this.digit_number) {
-      //     //my＿number＿listのindexが等しい時に
-      //     if (this.button_numbers[btn_index].clicked === false) {
-      //       this.button_numbers[btn_index].clicked = true       
-      //       this.my_number_lists[my_num_index] = btn_index
-      //     }
-      //     else {
-      //       this.button_numbers[btn_index].clicked = false            
-      //       this.my_number_lists[my_num_index] = undefined
-      //     } 
-      //   }else {
-      //     if (this.button_numbers[btn_index].clicked === true){
-      //       this.button_numbers[btn_index].clicked = false            
-      //       this.my_number_lists[my_num_index] = undefined
-      //     }
-      //   }
-      // },
 
       click_judge_button_number: function(btn_index) {
          if (this.button_numbers[btn_index].clicked === false) {
@@ -364,6 +330,7 @@
       },
     },
     data: () => ({
+      play_btn_numbers: [3,4,5],
       button_numbers: [
         {value: 0, clicked: false},
         {value: 1, clicked: false},
