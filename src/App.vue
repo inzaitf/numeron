@@ -7,7 +7,7 @@
           <v-col 
             class="" cols="12"
           >
-            <h1 class="display-4 font-italic font-weight-bold text-center">
+            <h1 class="display-4 font-italic font-weight-bold text-center light-blue--text text--lighten-1">
                Numer0n
             </h1>
           </v-col>
@@ -29,12 +29,39 @@
                  <v-btn v-on:click="click_play" fab large outlined color="light-blue lighten-1">遊ぶ</v-btn>
              </v-col>
         </v-row>
+        <v-row v-if="ok1" justify="center"> 
+          <v-col 
+              v-for="i in digit_number" :key="i.id"
+              cols="2"
+              >
+              <v-card               
+                color="lightblue lighten-1"
+                style="border: solid 1px #29B6F6; height: 100px;"
+              >
+              <v-row
+              style="height: 100px;"
+              justify="center"
+              align="center"
+              >
+                <v-col
+                cols="6"     
+                class="text-center"                          
+                >
+                <h2 
+                class="display-3 font-weight-bold light-blue--text text--lighten-3"
+                >
+              {{my_number_lists[i-1]}}
 
+                </h2>
+
+                </v-col>
+              </v-row>
+              </v-card>
+          </v-col>
+
+        </v-row>
         <v-row v-if="ok1" justify="center">
-          <v-col cols="2">
-            <v-row>
-              {{my_number_list}}
-            </v-row>
+          <v-col class="text-center" cols="2">
             <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
               <v-btn v-if="!(button_number.clicked)" 
                 id="number_btn"
@@ -72,7 +99,7 @@
           <v-col cols="2">
             <v-col cols="2">
             <v-row>
-              {{judge_number_list}}
+              {{judge_number_lists}}
             </v-row>
             <v-container v-for="(button_number, index) in button_numbers" :key="button_number.id">             
               <v-btn v-if="!(button_number.clicked)" 
@@ -151,10 +178,13 @@
       click_play: function(){
         this.ok0 = false
         this.ok1 = true
+        this.my_number_lists = new Array(this.digit_number)
+        this.judge_number_lists = new Array(this.digit_number)
+        
       },
 
       click_set: function(){
-        this.my_number = this.my_number_list.join("");
+        this.my_number = this.my_number_lists.join("");
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
         }
@@ -190,56 +220,122 @@
       },
 
       click_my_button_number: function(btn_index) {
-        //my＿number＿listのindexが等しい時に
-        if (this.button_numbers[btn_index].clicked === false) {
-          this.button_numbers[btn_index].clicked = true
-          this.my_number_list.push(btn_index)
-        }
-        else {
+        //桁数以上の数字を入力出来ないようにする
+        var my_num_index = this.my_number_lists.indexOf(btn_index)
+        if(this.button_numbers[btn_index].clicked === true) {
           this.button_numbers[btn_index].clicked = false
-          var my_num_index = this.my_number_list.indexOf(btn_index)
-          this.my_number_list.splice(my_num_index,1) 
-        } 
+          this.my_number_lists[my_num_index] = null
+        }else {
+          for (var i = 0; i < this.digit_number; i++) {
+            if(this.my_number_lists[i] == null) {
+              this.button_numbers[btn_index].clicked = true  
+              this.my_number_lists[i] = btn_index
+              break   
+            }
+          }
+        }
       },
+
+              
+
+
+
+    //     for (my_number_list in this.my_number_lists) {
+    //       if(my_number_list === null) {
+    //         if (this.button_numbers[btn_index].clicked === false) {
+    //           this.button_numbers[btn_index].clicked = true  
+    //           my_number_list = btn_index
+    //           break   
+    //         }else {
+    //             this.button_numbers[btn_index].clicked = false            
+    //             my_number_list[my_num_index] = null
+    //             break
+    //           } 
+    //       }else {
+    //         if (this.button_numbers[btn_index].clicked === false) {
+
+    //         }
+    //       }
+    //         this.button_numbers[btn_index].clicked = false            
+    //         my_number_list[my_num_index] = null
+    //       }   
+            
+    //     }
+    // }
+
+      //       if (this.my_number_list === null) {
+      //         if (this.button_numbers[btn_index].clicked === false) {
+      //         this.button_numbers[btn_index].clicked = true       
+      //         this.my_number_lists[my_num_index] = btn_index
+      //         }else {
+      //           this.button_numbers[btn_index].clicked = false            
+      //           this.my_number_lists[my_num_index] = null
+      //         } 
+  
+      //       }else {
+      //         if (this.button_numbers[btn_index].clicked === true){
+      //         this.button_numbers[btn_index].clicked = false            
+      //         this.my_number_lists[my_num_index] = null
+      //         }
+      //       }
+      // },
+      //   var my_num_index = this.my_number_listss.indexOf(btn_index)
+      //   if (this.my_number_listss.length < this.digit_number) {
+      //     //my＿number＿listのindexが等しい時に
+      //     if (this.button_numbers[btn_index].clicked === false) {
+      //       this.button_numbers[btn_index].clicked = true       
+      //       this.my_number_lists[my_num_index] = btn_index
+      //     }
+      //     else {
+      //       this.button_numbers[btn_index].clicked = false            
+      //       this.my_number_lists[my_num_index] = undefined
+      //     } 
+      //   }else {
+      //     if (this.button_numbers[btn_index].clicked === true){
+      //       this.button_numbers[btn_index].clicked = false            
+      //       this.my_number_lists[my_num_index] = undefined
+      //     }
+      //   }
+      // },
 
       click_judge_button_number: function(btn_index) {
          if (this.button_numbers[btn_index].clicked === false) {
           this.button_numbers[btn_index].clicked = true
-          this.judge_number_list.push(btn_index)
+          this.judge_number_lists.push(btn_index)
         }
         else {
           this.button_numbers[btn_index].clicked = false
-          var judge_num_index = this.judge_number_list.indexOf(btn_index)
-          this.judge_number_list.splice(judge_num_index,1) 
+          var judge_num_index = this.judge_number_lists.indexOf(btn_index)
+          this.judge_number_lists.splice(judge_num_index,1) 
         } 
       },
 
       click_judge: function() {
 
-        this.judge_number = this.judge_number_list.join("");
+        this.judge_number = this.judge_number_lists.join("");
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
         }
         if(this.digit_number === String(this.judge_number).length){
           this.ok3 = true
           this.ok4 = false
-          var my_number_list = []
-          var judge_number_list = []
+          var my_number_lists = []
+          var judge_number_lists = []
           var my_number = this.my_number
           var judge_number = this.judge_number
 
           for (var x = 0; x < this.digit_number; x++) {
-            my_number_list.unshift(my_number % 10)
-            judge_number_list.unshift(judge_number % 10)
+            my_number_lists.unshift(my_number % 10)
+            judge_number_lists.unshift(judge_number % 10)
             my_number = parseInt(my_number / 10)
             judge_number = parseInt(judge_number / 10)
           }
 
           var eat = 0
           var bite = 0
-          for (var index_m in my_number_list) {
-            for (var index_j in judge_number_list) {
-              if (my_number_list[index_m] === judge_number_list[index_j]) {
+          for (var index_m in my_number_lists) {
+            for (var index_j in judge_number_lists) {
+              if (my_number_lists[index_m] === judge_number_lists[index_j]) {
                 if (index_m === index_j) {
                   eat++;
                 } else {
@@ -257,7 +353,7 @@
             judge_number: this.judge_number,
           }          
           this.judge_datas.push(judge_data_obj)
-          this.judge_number_list.length = 0
+          this.judge_number_lists.length = 0
 
 
 
@@ -287,9 +383,9 @@
       ok2: false,
       ok3: false,
       ok4: false,
-      my_number_list: [],
+      my_number_lists: [],
       my_number: null,
-      judge_number_list: [],
+      judge_number_lists: [],
       judge_number: null,
       eat: 0,
       bite: 0,
