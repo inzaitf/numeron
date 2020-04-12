@@ -255,11 +255,8 @@
 </template>
 
 <script>
-
-
   export default {
     name: 'App',
-
     methods: {
       click_VS_com_mode_button: function(){
         this.ok00 = false
@@ -273,7 +270,6 @@
         this.ok00 = false
         this.ok0 = true
       },
-
       click_play: function(){
         this.ok0 = false
         this.ok1 = true
@@ -281,7 +277,6 @@
         this.judge_number_lists = new Array(this.digit_number)
         
       },
-
       click_set: function(){
         this.ok2 = true
         this.ok1 = false
@@ -297,7 +292,6 @@
         this.digit_number = play_btn_number
         this.my_number_lists = new Array(this.digit_number)
         this.judge_number_lists = new Array(this.digit_number)
-
         var max_index = 10;
         const auto_my_numbers = [];
         const numbers = [0,1,2,3,4,5,6,7,8,9];
@@ -309,7 +303,6 @@
         }
         this.my_number = auto_my_numbers.join("");
       },
-
       click_play_button_number: function(play_btn_number){
         this.ok0 = false
         this.ok1 = true
@@ -317,7 +310,6 @@
         this.my_number_lists = new Array(this.digit_number)
         this.judge_number_lists = new Array(this.digit_number)
       },
-
       click_my_button_number: function(btn_index) {
         //桁数以上の数字を入力出来ないようにする
         var my_num_index = this.my_number_lists.indexOf(btn_index)
@@ -334,9 +326,6 @@
           }
         }
       },
-
-
-
       click_judge_button_number: function(btn_index) {
         var judge_num_index = this.judge_number_lists.indexOf(btn_index)
         if(this.button_numbers[btn_index].clicked === true) {
@@ -352,8 +341,6 @@
           }
         }
       },
-
-
       //    if (this.button_numbers[btn_index].clicked === false) {
       //     this.button_numbers[btn_index].clicked = true
       //     this.judge_number_lists.push(btn_index)
@@ -364,21 +351,17 @@
       //     this.judge_number_lists.splice(judge_num_index,1) 
       //   } 
       // },
-
       click_judge: function() {
-
         this.judge_number = this.judge_number_lists.join("");
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
         }
-
           this.ok3 = true
           this.ok4 = false
           var my_number_lists = []
           var judge_number_lists = []
           var my_number = this.my_number
           var judge_number = this.judge_number
-
            for (var x = 0; x < this.digit_number; x++) {
             my_number_lists.unshift(my_number % 10)
             judge_number_lists.unshift(judge_number % 10)
