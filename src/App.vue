@@ -2,13 +2,16 @@
   <v-app>
     <div id="app" >
       <v-container>
-        <v-row>
+        <v-row justify="center">          
           <v-col 
-            class="" cols="12"
-          >
-            <h1 class="display-4 font-italic font-weight-bold text-center light-blue--text text--lighten-1">
-               Numer0n
-            </h1>
+            class="" cols="6"
+          ><v-row justify="center">
+            <v-col cols="12">              
+              <h1 style="borderBottom: solid 5px #29B6F6" class="display-4 font-italic font-weight-bold text-center light-blue--text text--lighten-1">
+                 Numer0n
+              </h1>
+            </v-col>
+          </v-row>
           </v-col>
               
         </v-row>  
@@ -29,7 +32,7 @@
                class="mx-2"
                fab large 
                outlined
-               color="light-blue lighten-1"
+               color="light-blue darken-4"
               >
                 VS com
               </v-btn>
@@ -189,60 +192,68 @@
           </v-col>
         </v-row>
         <v-container v-if="ok2">
-          <v-row align="center">
-            <v-row align="center" justify="center">
-              <v-col cols="4">
-                <v-row align="center" justify="center">             
-                  <v-col v-for="(button_number, index) in button_numbers" :key="button_number.id" cols="4">
-                    <v-row align="center" justify="center">
-                      <v-btn v-if="!(button_number.clicked)" 
-                          id="number_btn"
-                          v-on:click="click_judge_button_number(index)"
-                          class="mx-2"
-                          fab large 
-                          outlined
-                          color="light-blue lighten-1"
-                      >
-                        {{index}}
-                      </v-btn>
-                      <v-btn v-else
-                          id="number_btn"
-                          v-on:click="click_judge_button_number(index)"
-                          class="mx-2"
-                          fab large dark color="cyan lighten-5"
-                      >               
-                        {{index}}              
-                      </v-btn>
-                    </v-row>
-                  </v-col>             
-                  <v-col cols="6">
+          <v-row align="top">
+            <v-col></v-col>      
+            <v-col cols="4">
+              <v-row align="center" justify="center">             
+                <v-col v-for="(button_number, index) in button_numbers" :key="button_number.id" cols="4" class="m-auto">
+                  <v-row align="center" justify="center">
+                    <v-btn v-if="!(button_number.clicked)" 
+                        id="number_btn"
+                        v-on:click="click_judge_button_number(index)"
+                        class="mx-2"
+                        fab large 
+                        outlined
+                        color="light-blue lighten-1"
+                    >
+                      {{index}}
+                    </v-btn>
+                    <v-btn v-else
+                        id="number_btn"
+                        v-on:click="click_judge_button_number(index)"
+                        class="mx-2"
+                        fab large dark color="cyan lighten-5"
+                    >               
+                      {{index}}              
+                    </v-btn>
+                  </v-row>
+                </v-col>
+                <v-row align="end" justify="center">
+                  <v-col cols="4"></v-col>
+                </v-row>
+                <v-row align="end" justify="end" >
+                  <v-col cols="4" class="mx-auto">
                     <v-btn v-on:click="click_judge" fab large outlined color="light-blue lighten-1">判定</v-btn>
                   </v-col>               
-                </v-row>          
-              </v-col> 
-            </v-row>
-              <v-row justify="end">
-                <v-col cols="12">
-                  <v-card
-                    class="mx-auto overflow-y-auto"
-                    v-if="ok3"
-                    id="scroll-target"
-                    max-height="300px"
-                  >
-                    <v-toolbar color="indigo" dark>
-                      <v-toolbar-title>履歴</v-toolbar-title>
-                    </v-toolbar>
-                    <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id">        
-                      <v-list-item-content>
-                        <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
-                      </v-list-item-content>
-                      <v-list-item-content>
-                        <v-list-item-title >{{judge_data.eat}}eat{{judge_data.bite}}bite!</v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-card>
-                </v-col>
+                </v-row>               
               </v-row>
+            </v-col>
+            <v-col cols="4">                
+              <v-row align="top" justify="end"> 
+               <v-col cols="12">
+                 <v-card
+                   class="mx-auto overflow-y-auto"
+                   v-if="ok3"
+                   id="scroll-target"
+                   max-height="300px"
+                 >
+                   <v-toolbar color="indigo" dark>
+                     <v-row justify="center">
+                      <v-toolbar-title>履歴</v-toolbar-title>
+                     </v-row>
+                   </v-toolbar>s                    
+                   <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id">        
+                        <v-list-item-content>
+                          <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                          <v-list-item-title >{{judge_data.eat}}eat{{judge_data.bite}}bite!</v-list-item-title>
+                        </v-list-item-content>
+                   </v-list-item>                      
+                 </v-card>
+               </v-col>
+              </v-row>
+            </v-col>
           </v-row>  
         </v-container>
         <!-- エラー文章 -->
@@ -341,16 +352,6 @@
           }
         }
       },
-      //    if (this.button_numbers[btn_index].clicked === false) {
-      //     this.button_numbers[btn_index].clicked = true
-      //     this.judge_number_lists.push(btn_index)
-      //   }
-      //   else {
-      //     this.button_numbers[btn_index].clicked = false
-      //     var judge_num_index = this.judge_number_lists.indexOf(btn_index)
-      //     this.judge_number_lists.splice(judge_num_index,1) 
-      //   } 
-      // },
       click_judge: function() {
         this.judge_number = this.judge_number_lists.join("");
         for(var i in this.button_numbers) {
@@ -388,7 +389,7 @@
             bite: this.bite,
             judge_number: this.judge_number,
           }          
-          this.judge_datas.push(judge_data_obj)
+          this.judge_datas.unshift(judge_data_obj)
           this.judge_number_lists.length = 0
       }
     },
