@@ -223,7 +223,7 @@
                 </v-row>
                 <v-row align="end" justify="end" >
                   <v-col cols="4" class="mx-auto">
-                    <v-btn v-on:click="click_judge" fab large outlined color="light-blue lighten-1">判定</v-btn>
+                    <v-btn v-on:click="click_judge" :disabled="judge_push" fab large outlined color="light-blue lighten-1">判定</v-btn>
                   </v-col>               
                 </v-row>               
               </v-row>
@@ -241,7 +241,7 @@
                      <v-row justify="center">
                       <v-toolbar-title>履歴</v-toolbar-title>
                      </v-row>
-                   </v-toolbar>s                    
+                   </v-toolbar>              
                    <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id">        
                         <v-list-item-content>
                           <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
@@ -351,9 +351,16 @@
             }
           }
         }
+        this.judge_push = false
+        for (var x = 0; x < this.digit_number; x++) {
+          if(this.judge_number_lists[x] == null) {
+            this.judge_push = true
+          }
+        }
       },
       click_judge: function() {
         this.judge_number = this.judge_number_lists.join("");
+        this.judge_push = true
         for(var i in this.button_numbers) {
           this.button_numbers[i].clicked = false
         }
@@ -423,6 +430,7 @@
       bite: 0,
       digit_number: null,
       judge_datas: [],
+      judge_push: true,
     }),
   };
 </script>
