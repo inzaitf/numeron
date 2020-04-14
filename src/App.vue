@@ -1,21 +1,7 @@
 <template>
   <v-app>
     <div id="app" >
-      <v-container>
-        <v-row justify="center">          
-          <v-col 
-            class="" cols="6"
-          ><v-row justify="center">
-            <v-col cols="12">              
-              <h1 style="borderBottom: solid 5px #29B6F6" class="display-4 font-italic font-weight-bold text-center light-blue--text text--lighten-1">
-                 Numer0n
-              </h1>
-            </v-col>
-          </v-row>
-          </v-col>
-              
-        </v-row>  
-      </v-container>
+      <numeron-title title="NumerOn"></numeron-title>
 
       <v-container v-if="ok00" grid-list-lg>
         <v-row align="center" justify="center">
@@ -233,8 +219,8 @@
                <v-col cols="12">
                  <v-card
                    class="mx-auto overflow-y-auto"
-                   v-if="ok3"
                    id="scroll-target"
+                   v-if="ok3"
                    max-height="300px"
                  >
                    <v-toolbar color="indigo" dark>
@@ -242,7 +228,10 @@
                       <v-toolbar-title>履歴</v-toolbar-title>
                      </v-row>
                    </v-toolbar>              
-                   <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id">        
+                   <v-list-item v-for="judge_data in judge_datas" :key="judge_data.id" 
+                      
+                    
+                      >        
                         <v-list-item-content>
                           <v-list-item-title >{{judge_data.judge_number}}</v-list-item-title>
                         </v-list-item-content>
@@ -266,8 +255,13 @@
 </template>
 
 <script>
+import NumeronTitle from "./components/NumeronTitle.vue"
+
   export default {
     name: 'App',
+    components: {
+      NumeronTitle
+    },
     methods: {
       click_VS_com_mode_button: function(){
         this.ok00 = false
