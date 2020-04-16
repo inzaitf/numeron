@@ -1,42 +1,53 @@
 <template>
-    <v-app>
-        <v-container>
-            <v-row v-if="ok01" justify="center">
-              <v-row>
-                <v-col 
-                  class="title font-weight-bold text-center light-blue--text text--lighten-1"
-                  cols="12"
-                  >
-                  何桁で遊ぶ?
-                </v-col>
-              </v-row>
-            </v-row>
-            <v-row v-if="ok01" justify="center">
-                <v-col 
-                  v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
-                  cols="2"              
-                >
-                  <v-row justify="center">
-                    <v-btn
-                      id="number_btn"
-                      v-on:click="click_auto_play_button_number(play_btn_number)"
-                      class="mx-2"
-                      fab large 
-                      outlined
-                      color="light-blue lighten-1"
-                    >
-                    
-                            {{play_btn_number}}
-                        </v-btn>  
-                    </v-row>
-                </v-col>
-            </v-row>  
-        </v-container>
-    </v-app>
+  <v-app>
+    <v-btn @click="send_call()"></v-btn>
+    {{messages}}
+  </v-app>
 </template>
 
 <script>
+// import io from 'socket.io-client'
+
 export default {
-    name: 'Online'
+    name: 'Online',
+
+    methods: {
+      send_call(){
+        // サーバー側にメッセージを送信する
+        this.socket.send(this.dummy_json)
+      },
+    },
+
+    data: () => ({
+      socket: null,
+      message: '',
+      messages: [],
+
+      dumy_message: 
+      {
+        "eat": 0,
+        "bite": 1,
+      },
+    }),
+
+    computed: {
+      dummy_json: function(){
+        return JSON.stringify(this.dumy_message)
+      }
+    },
+
+    mounted() {
+      // // Socketインスタンスを生成
+      this.socket = new WebSocket('ws://localhost:80/ws')
+
+      this.socket.onopen = function(event){
+        console.log(event)
+      }
+
+      // サーバー側で保持しているメッセージを受信する
+      this.socket.onmessage = function(message) {
+          console.log(message.data)
+      };
+    },
 }
 </script>
