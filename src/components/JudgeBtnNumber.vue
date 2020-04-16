@@ -86,6 +86,17 @@
               </v-row>
             </v-col>
           </v-row>
+          <v-alert
+          v-if="digit_number == eat"
+          color="green lighten-1"
+          border="top"
+          style="opacity: 1;"
+          prominent
+          >
+            <v-row justify="center">
+              Game Clear!!! 
+            </v-row>
+          </v-alert>
         </v-container>         
     </v-app>
 </template>
