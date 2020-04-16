@@ -2,87 +2,52 @@
 <v-app>
       <numeron-title title="NumerOn"></numeron-title>
 
-      <v-container v-if="ok00" grid-list-lg>
+      <v-container>
         <v-row align="center" justify="center">
           ルール
         </v-row>
         <v-row align="center" justify="center">
           遊ぶモード
         </v-row>
-        <v-row align="center" justify="center">
+        
+        <v-row align="center" justify="center" style="height: 100px;">
           <v-col cols="4">
             <v-row align="center" justify="center">
-                <router-link to="/vscom">
-                    <v-btn
-                     v-on:click="click_VS_com_mode_button()"
-                     class="mx-2"
-                     fab large 
-                     outlined
-                     color="light-blue darken-4"
-                    >
-                      VS com
-                    </v-btn>
-                </router-link>
-                <router-link to="/online">
-                    <v-btn
-                     v-on:click="click_online_mode_button()"
-                     class="mx-2"
-                     fab large 
-                     outlined
-                     color="light-blue lighten-1"
-                    >
-                      online
-                    </v-btn>
-                </router-link>
-                <router-link to="/judge">
-                    <v-btn
-                     v-on:click="click_judge_mode_button()"
-                     class="mx-2"
-                     fab large 
-                     outlined
-                     color="light-blue lighten-1"
-                    >
-                        judge
-                    </v-btn>
-                </router-link>
+                
+                
+              <mode-btn
+                btn_color="light-blue lighten-1"
+                mode_name="VSCOM"
+                link_name="/vscom"
+              >
+              </mode-btn>
+
+              <mode-btn
+                btn_color="light-blue lighten-1"
+                mode_name="ONLINE"
+                link_name="/online"
+              >
+              </mode-btn>
+          
+              <mode-btn
+                btn_color="light-blue lighten-1"
+                mode_name="JUDGE"
+                link_name="/judge"
+              >
+              </mode-btn>
+                
+
             </v-row>
           </v-col>
         </v-row>
       </v-container>
+
       <router-view></router-view>
 
       <my-btn-number></my-btn-number>
 
      <v-container>
-         <v-row v-if="ok01" justify="center">
-          <v-row>
-            <v-col 
-              class="title font-weight-bold text-center light-blue--text text--lighten-1"
-              cols="12"
-              >
-              何桁で遊ぶ?
-            </v-col>
-          </v-row>
-        </v-row>
-        <v-row v-if="ok01" justify="center">
-            <v-col 
-              v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
-              cols="2"              
-            >
-              <v-row justify="center">
-                <v-btn
-                  id="number_btn"
-                  v-on:click="click_auto_play_button_number(play_btn_number)"
-                  class="mx-2"
-                  fab large 
-                  outlined
-                  color="light-blue lighten-1"
-                >
-                  {{play_btn_number}}
-                </v-btn>  
-              </v-row>
-            </v-col>
-        </v-row>  
+
       </v-container>
         <v-row v-if="ok4" justify="center">   
           <v-text class="red--text">※※ごめんね<br>まだそのモードは追加されてないんだ</v-text>       
@@ -93,25 +58,16 @@
 <script>
 import NumeronTitle from "@/components/NumeronTitle.vue"
 import MyBtnNumber from '@/components/MyBtnNumber.vue'
+import ModeBtn from '@/components/ModeBtn.vue'
+
   export default {
     name: 'Home',
     components: {
       NumeronTitle,
-      MyBtnNumber
+      MyBtnNumber,
+      ModeBtn
     },
     methods: {
-      click_VS_com_mode_button: function(){
-        this.ok00 = false
-        this.ok01 = true
-      },
-      click_online_mode_button: function(){
-        this.ok00 = false
-        this.ok4 = true
-      },
-      click_judge_mode_button: function(){
-        this.ok00 = false
-        this.ok0 = true
-      },
     },
     data: () => ({
       play_btn_numbers: [3,4,5],
