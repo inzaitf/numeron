@@ -32,11 +32,11 @@
             </v-row>  
         </v-container>
         <judge-btn-number
-        :digit_number='digit_number' 
-        :ok2='ok2'
-        :my_number_lists='my_number_lists'
-        :my_number='my_number'
-        :judge_number_lists='judge_number_lists'
+          :digit_number='digit_number' 
+          :ok2='ok2'
+          :my_number_lists='my_number_lists'
+          :my_number='my_number'
+          :judge_number_lists='judge_number_lists'
         ></judge-btn-number>
     </v-app>
 </template>
