@@ -1,60 +1,133 @@
 <template>
-    <v-app>
-        <v-container v-if="ok1">
-             <select-digit
-             v-if="digit_flag"
-             :digit_number='digit_number'
-             :message=何桁で遊ぶ
-             >
-             </select-digit>
-        </v-container>
-        <judge-btn-number
-          :digit_number='digit_number'
-          :ok2='ok2'
-          :my_number_lists='my_number_lists'
-          :my_number='my_number'
-          :judge_number_lists='judge_number_lists'
-        ></judge-btn-number>
-    </v-app>
+  <v-app>
+    <!-- 桁数設定画面 -->
+    <v-container v-if="digit_flag">
+      <!-- 桁数を選択 -->
+      <select-digit
+      v-if="digit_flag"
+      message="何桁で遊ぶ?"
+      @set_digit_num="set_digit_num"
+      @click_btn="auto_set_cp_num(); change_digit_flag(); change_judge_btn_num_flag()"
+      >
+      </select-digit>
+    </v-container>
+
+    <!-- コール画面 -->
+    <btn-number
+      v-if="judge_btn_num_flag"
+      :digit_num='digit_num'
+      @set_num="set_judge_num"
+      @clicked_btn='change_history_flag(); judge()'
+      call_btn_name='判定'
+    >
+    </btn-number>
+
+    <!-- コール履歴 -->
+    <history
+      v-if='history_flag'
+      :judge_data='judge_datas'
+    >
+    </history>
+
+  </v-app>
 </template>
 
 <script>
-import JudgeBtnNumber from '@/components/JudgeBtnNumber.vue'
+import BtnNumber from '@/components/BtnNumber.vue'
 import SelectDigit from '@/components/SelectDigit.vue'
+import History from '@/components/History'
+
 export default {
-    name: "Vscom",
-    components: {
-      JudgeBtnNumber,
-      SelectDigit,
+  name: "Vscom",
+
+  components: {
+    BtnNumber,
+    SelectDigit,
+    History,
+  },
+
+  data: () => ({
+    digit_num: null,            // 桁数
+    play_btn_numbers: [3,4,5],  // 桁数の候補
+    cp_num: [],                 // CPの設定数字
+    judge_num: [],              // コールする数字
+    judge_datas: [],            // 履歴に表示するデータ
+
+    digit_flag: true,           // 桁数選択画面の制御フラグ
+    judge_btn_num_flag: false,  // コール画面の制御フラグ
+    history_flag: false,        // 履歴画面の制御フラグ
+  }),
+
+  props: {
+  },
+
+  computed: {
+  },
+
+  methods: {
+    // 桁数選択画面の制御フラグ変更
+    change_digit_flag: function() {
+      this.digit_flag = !this.digit_flag
     },
-    computed: {
-      digit_flag: function(){
-        return this.$store.state.digit_flag
+
+    // コール画面の制御フラグ変更
+    change_judge_btn_num_flag: function() {
+      this.judge_btn_num_flag = !this.judge_btn_num_flag
+    },
+
+    // 履歴画面の制御フラグ変更
+    change_history_flag: function() {
+      this.history_flag = true
+    },
+
+    // コールナンバーの設定
+    set_judge_num: function(judge_num){
+      this.judge_num = judge_num
+    },
+
+    // 桁数の取得
+    set_digit_num: function(digit_num){
+      this.digit_num = digit_num
+    },
+
+    // 与えた桁数分ランダムな数字を生成
+    auto_set_cp_num: function() {
+      this.cp_num = new Array(this.digit_num)
+      var max_index = 10;
+      const numbers = [0,1,2,3,4,5,6,7,8,9];
+      for(var i = 0; i < this.digit_num ; i++){
+        var index = Math.floor( Math.random() * max_index );
+        this.cp_num.push(numbers[index]);
+        numbers.splice(index, 1)
+        max_index--
       }
     },
-    methods: {
-        click_auto_play_button_number(play_btn_number) {
-          this.ok1 = false
-          this.ok2 = true
-          this.digit_number = play_btn_number
-          this.judge_number_lists = new Array(this.digit_number)
-          var max_index = 10;
-          const numbers = [0,1,2,3,4,5,6,7,8,9];
-          for(var i = 0; i < this.digit_number ; i++){
-            var index = Math.floor( Math.random() * max_index );
-            this.my_number_lists.push(numbers[index]);
+
+    // eatとbiteの判定
+    judge: function(){
+      var eat = 0
+      var bite = 0
+      for (var index_c in this.cp_num) {
+        for (var index_j in this.judge_num) {
+          if (this.cp_num[index_c] === this.judge_num[index_j]) {
+            if (index_c === index_j) {
+              eat++;
+            } else {
+              bite++;
+            }
           }
-          this.my_number = this.my_number_lists.join("");
-        },
+        }
+      }
+      this.eat = eat
+      this.bite = bite
+      var judge_num = this.judge_num.join("")
+      var judge_data_obj = {
+        eat: this.eat,
+        bite: this.bite,
+        judge_number: judge_num,
+      }
+      this.judge_datas.unshift(judge_data_obj)
     },
-    data: () => ({
-        ok1: true,
-        ok2: false,
-        digit_number: null,
-        play_btn_numbers: [3,4,5],
-        my_number_lists: [],
-        my_number: null,
-        judge_number_lists: [],
-    }),
+  },
 }
 </script>

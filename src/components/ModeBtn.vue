@@ -15,13 +15,10 @@
 export default {
     name: 'ModeBtn',
     
-    data: () => ({
-    }),
-    
     props: [
-        'btn_color',
-        'mode_name',
-        'link_name',
+        'btn_color',  // ボタンの色
+        'mode_name',  // モードの名前
+        'link_name',  // リンク先URL
     ],
 }
 </script>

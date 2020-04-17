@@ -1,70 +1,141 @@
 <template>
-    <v-app>
-        <v-container v-if="ok0">
-            <v-row align="center" justify="center">
-                <v-col 
-                    class="title font-weight-bold text-center light-blue--text text--lighten-1"
-                    cols="12"
-                >
-                    何桁で遊ぶ?
-                </v-col>
-            </v-row>
-            <v-row justify="center">
-                <v-col 
-                    v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
-                    cols="2"              
-                >
-                    <v-row justify="center">
-                        <v-btn
-                            id="number_btn"
-                            v-on:click="click_play_button_number(play_btn_number)"
-                            class="mx-2"
-                            fab large 
-                            outlined
-                            color="light-blue lighten-1"
-                        >
-                            {{play_btn_number}}
-                        </v-btn>  
-                    </v-row>
-                </v-col>
-            </v-row>  
-        </v-container>
-        <my-btn-number 
-        :ok1="ok1" 
-        :digit_number="digit_number"
-        :play_btn_numbers="play_btn_numbers"
-        :my_number_lists="my_number_lists"
-        :my_number="my_number"
-        :judge_number_lists="judge_number_lists"
-        ></my-btn-number>
-    </v-app>
+  <v-app>
+    <!-- 桁数設定画面 -->
+    <v-container v-if="digit_flag">
+        <select-digit
+        v-if="digit_flag"
+        :digit_num='digit_num'
+        message="何桁で遊ぶ?"
+        @set_digit_num="set_digit_num"
+        @click_btn="change_digit_flag(); change_my_btn_num_flag()"
+        >
+        </select-digit>
+    </v-container>
+
+
+    <!-- 自分の数字の設定画面 -->
+    <btn-number
+        v-if="my_btn_num_flag"
+        :digit_num='digit_num'
+        :number='my_num'
+        @set_num="set_my_num"
+        @clicked_btn='change_my_btn_num_flag(); change_judge_btn_num_flag()'
+        call_btn_name='設定'
+    >
+    </btn-number>
+
+    <!-- コール画面 -->
+    <btn-number
+      v-if="judge_btn_num_flag"
+      :digit_num='digit_num'
+      @set_num="set_judge_num"
+      @clicked_btn='change_history_flag(); judge()'
+      call_btn_name='判定'
+    >
+    </btn-number>
+
+    <!-- コール履歴 -->
+    <history
+      v-if='history_flag'
+      :judge_data='judge_datas'
+    >
+    </history>
+
+  </v-app>
 </template>
 
 <script>
-import MyBtnNumber from "@/components/MyBtnNumber.vue"
-    export default {
-        name: 'Judge',
-        components: {
-            MyBtnNumber
-        },
-    
-        methods: {
-            click_play_button_number(play_btn_number) {
-                this.ok0 = false
-                this.ok1 = true
-                this.digit_number = play_btn_number
-                this.my_number_lists = new Array(this.digit_number)
-                this.judge_number_lists = new Array(this.digit_number)
-            },
-        },
-        data: () => ({
-            ok0: true,
-            ok1: false,
-            digit_number: null,
-            play_btn_numbers: [3,4,5],
-            my_number_lists: [],
-            my_number: null,
-            judge_number_lists: [],
-        }),
-    };
+import BtnNumber from '@/components/BtnNumber.vue'
+import SelectDigit from '@/components/SelectDigit.vue'
+import History from '@/components/History.vue'
+
+export default {
+  name: "Vscom",
+
+  components: {
+    BtnNumber,
+    SelectDigit,
+    History,
+  },
+
+  data: () => ({
+    digit_num: null,            // 桁数
+    play_btn_numbers: [3,4,5],  // 桁数の候補
+    my_num: [],                 // 自分の設定した数字
+    judge_num: [],              // コールする数字
+    eat: 0,                     // イート
+    bite: 0,                    // バイト
+    judge_datas: [],            // 履歴に表示するデータ
+
+    digit_flag: true,           // 桁数選択画面の制御フラグ
+    my_btn_num_flag: false,     // 自分の数字の設定画面の制御フラグ
+    judge_btn_num_flag: false,  // コール画面の制御フラグ
+    history_flag: false,        // 履歴画面の制御フラグ
+  }),
+
+  props: {
+  },
+
+
+  methods: {
+    // 桁数選択画面の制御フラグ変更
+    change_digit_flag() {
+      this.digit_flag = !this.digit_flag
+    },
+    // 自分の数字の設定画面の制御フラグ変更
+    change_my_btn_num_flag() {
+      this.my_btn_num_flag = !this.my_btn_num_flag
+    },
+    // コール画面の制御フラグ変更
+    change_judge_btn_num_flag() {
+        this.judge_btn_num_flag = !this.judge_btn_num_flag
+    },
+
+    // 履歴画面の制御フラグ// 履歴画面の制御フラグ変更
+    change_history_flag: function() {
+      this.history_flag = true
+    },
+
+    // 桁数の取得
+    set_digit_num: function(digit_num){
+      this.digit_num = digit_num
+    },
+
+    // 自分の数字の設定
+    set_my_num: function(my_num){
+      this.my_num = my_num
+    },
+
+    // コールナンバーの設定
+    set_judge_num: function(judge_num){
+      this.judge_num = judge_num
+    },
+
+    // eatとbiteの判定
+    judge: function(){
+      var eat = 0
+      var bite = 0
+      for (var index_c in this.cp_num) {
+        for (var index_j in this.judge_num) {
+          if (this.cp_num[index_c] === this.judge_num[index_j]) {
+            if (index_c === index_j) {
+              eat++;
+            } else {
+              bite++;
+            }
+          }
+        }
+      }
+      this.eat = eat
+      this.bite = bite
+      var judge_num = this.judge_num.join("")
+      var judge_data_obj = {
+        eat: this.eat,
+        bite: this.bite,
+        judge_number: judge_num,
+      }
+      this.judge_datas.unshift(judge_data_obj)
+    },
+  },
+}
 </script>
