@@ -48,11 +48,13 @@ export default {
         digit_nums: [3,4,5],
     }),
     props: [
+        'mutation',
         'message',
     ],
     methods: {
         click_digit_btn: function(digit_num){
-            this.$emit('set_digit_num', digit_num)
+            console.log(this.mutation)
+            this.$store.commit(this.mutation, digit_num)
             this.$emit('click_btn')
         },
     },

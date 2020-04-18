@@ -63,7 +63,7 @@
                     <v-row align="end" justify="center">
                     <v-btn
                         id="number_btn"
-                        v-on:click="clicked_btn"
+                        v-on:click="clicked_btn();"
                         :disabled='disable'
                         class="mx-2"
                         fab
@@ -93,7 +93,7 @@ export default {
 
     props: [
         'digit_num',
-        'judge_btn_num_flag',
+        'mutation',
         'call_btn_name',
     ],
 
@@ -112,7 +112,6 @@ export default {
             {value: 8, clicked: false},
             {value: 9, clicked: false},
         ],
-        flag: true,
         number: [],
     }),
 
@@ -145,13 +144,8 @@ export default {
         },
 
         clicked_btn: function(){
-            this.$emit('set_num', this.number)
-            console.log("btnnumえみっとしたよ"+this.number)
+            this.$store.commit(this.mutation, this.number)
             this.$emit('clicked_btn')
-            for(var i in this.number){
-                this.btn_num[this.number[i]].clicked = false
-                this.number[i] = null
-            }
         },
     },
 }

@@ -17,7 +17,7 @@
                         </v-toolbar>
                         <v-list-item v-for="data in judge_data" :key="data.id">
                             <v-list-item-content>
-                                <v-list-item-title >{{data.judge_number}}</v-list-item-title>
+                                <v-list-item-title >{{data.call_number}}</v-list-item-title>
                             </v-list-item-content>
                             <v-list-item-content>
                                 <v-list-item-title >{{data.eat}}eat{{data.bite}}bite!</v-list-item-title>

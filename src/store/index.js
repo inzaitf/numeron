@@ -1,15 +1,19 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import flag from "@/store/modules/flag/";
-import auth from "@/store/modules/auth/";
+import auth from "@/store/modules/auth";
+import online from "@/store/modules/online";
+import judge from "@/store/modules/judge";
+import vscom from "@/store/modules/vscom";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    flag,
+    online,
     auth,
+    judge,
+    vscom,
   },
   plugins: [
     createPersistedState({

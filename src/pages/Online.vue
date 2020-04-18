@@ -5,20 +5,21 @@
 
     <!-- 自分の数字の設定画面 -->
     <btn-number
-      v-if="my_btn_num_flag"
+      v-if="my_num_flag"
       :digit_num="digit_num"
-      @set_num="set_my_num"
-      @clicked_btn='change_my_btn_num_flag(); change_judge_btn_num_flag()'
+      mutation="online/set_my_num"
+      @clicked_btn='false_my_num_flag(); true_call_num_flag()'
       call_btn_name='設定'
     >
     </btn-number>
 
     <!-- コール画面 -->
     <btn-number
-      v-if="judge_btn_num_flag"
+      v-if="call_num_flag"
       :digit_num='digit_num'
-      @set_num="set_judge_num"
-      @clicked_btn='call(); '
+      :key="reset_key"
+      mutation="online/set_call_num"
+      @clicked_btn='call(); reset_btn_number()'
       call_btn_name='コール'
     >
     </btn-number>
@@ -51,30 +52,45 @@ export default {
       socket: null,               // websocketとの接続状態
       message: null,              // websocket内のメッセージ
 
-      digit_num: 4,
-      my_num: [],                 // 自分の設定した数字
-      judge_num: [],              // コールする数字
+      digit_num: 4,               // 桁数
       judge_datas: [],            // 履歴に表示するデータ
-
-      digit_flag: true,           // 桁数選択画面の制御フラグ
-      my_btn_num_flag: false,     // 自分の数字の設定画面の制御フラグ
-      judge_btn_num_flag: false,  // コール画面の制御フラグ
-      history_flag: false,        // 履歴画面の制御フラグ
+      reset_key: 0,               // コール画面用のリセットキー
     }),
 
     computed: {
-      dummy_json: function(){
-        return JSON.stringify(this.dumy_message)
-      },
 
       // ロード画面の制御フラグ
       load_flag: function(){
-        return this.$store.state.flag.ready
+        return this.$store.state.online.ready
       },
 
       // ユーザーID
       user_id: function(){
         return this.$store.state.auth.user_id
+      },
+
+
+      // マイナンバー設定画面の制御フラグ
+      my_num_flag: function(){
+        return this.$store.state.online.my_num_flag
+      },
+      // マイナンバー
+      my_num: function(){
+        return this.$store.state.online.my_num
+      },
+
+      // コールナンバー設定画面制御フラグ
+      call_num_flag: function(){
+        return this.$store.state.online.call_num_flag
+      },
+      // コールナンバー
+      call_num: function(){
+        return this.$store.state.online.call_num
+      },
+
+      // 履歴画面の制御フラグ
+      history_flag: function(){
+        return this.$store.state.online.history_flag
       },
     },
 
@@ -101,8 +117,8 @@ export default {
             switch (m.type) {
               case 'ready':
                 console.log("readyきました")
-                self.$store.commit('flag/yes_ready')
-                self.my_btn_num_flag = true
+                self.$store.commit('online/yes_ready')
+                self.$store.commit('online/true_my_num_flag')
                 break;
               case 'call':
                 console.log("コールきました")
@@ -120,73 +136,61 @@ export default {
 
     methods: {
 
-      // 自分の数字の設定画面の制御フラグ変更
-      change_my_btn_num_flag() {
-        this.my_btn_num_flag = !this.my_btn_num_flag
-      },
+    // マイナンバー設定画面の制御フラグ有効化
+    true_my_num_flag() {
+      this.$store.commit('online/true_my_num_flag')
+    },
+    // 自分の数字の設定画面の制御フラグ無効化
+    false_my_num_flag() {
+      this.$store.commit('online/false_my_num_flag')
+    },
+    // コール画面の制御フラグの有効化
+    true_call_num_flag() {
+      this.$store.commit('online/true_call_num_flag')
+    },
+    // 履歴画面の制御フラグの有効化
+    true_history_flag: function() {
+      this.$store.commit('online/true_history_flag')
+    },
 
-      // コール画面の制御フラグ変更
-      change_judge_btn_num_flag() {
-        this.judge_btn_num_flag = true
-      },
-  
-      // 履歴画面の制御フラグ/
-      change_history_flag: function() {
-        this.history_flag = true
-      },
-
-      // 自分の数字の設定
-      set_my_num: function(my_num){
-        this.my_num = my_num
-      },
-
-      // コールナンバーの設定
-      set_judge_num: function(judge_num){
-        this.judge_num = judge_num
-      },
-
-      // サーバー側にメッセージを送信する(引数にはオブジェクト)
-      send(call_number_obj){
-        var call_number_json = JSON.stringify(call_number_obj)
-        this.socket.send(call_number_json)
-      },
-
-      // 相手にコールナンバーを送信
-      call: function(){
-        var obj = {
-          user_id: this.user_id,
-          type: "call",
-          call_number: this.judge_num.join(""), 
-        }
-        this.send(obj)
-      },
-
-      // eatとbiteの判定
-      judge: function(called_num){
-        var eat = 0
-        var bite = 0
-        for (var index_m in this.my_num) {
-          for (var index_c in called_num) {
-            console.log(this.my_num[index_m], called_num[index_c])
-            if (this.my_num[index_m] === called_num[index_c]) {
-              if (index_m === index_c) {
-                eat++
-              } else {
-                bite++
-              }
+    // サーバー側にメッセージを送信する(引数にはオブジェクト)
+    send(call_number_obj){
+      var call_number_json = JSON.stringify(call_number_obj)
+      this.socket.send(call_number_json)
+    },
+    // 相手にコールナンバーを送信
+    call: function(){
+      var obj = {
+        user_id: this.user_id,
+        type: "call",
+        call_number: this.call_num, 
+      }
+      this.send(obj)
+    },
+    // eatとbiteの判定
+    judge: function(called_num){
+      var eat = 0
+      var bite = 0
+      for (var index_m in this.my_num) {
+        for (var index_c in called_num) {
+          if (this.my_num[index_m] === called_num[index_c]) {
+            if (index_m === index_c) {
+              eat++
+            } else {
+              bite++
             }
           }
         }
-        console.log(eat, bite)
-        var result_obj = {
-          user_id: this.user_id,
-          type: "result",
-          eat: eat,
-          bite: bite,
-          call_number: called_num,
-        }
-        this.send(result_obj)
-      },
+      }
+      var result_obj = {
+        user_id: this.user_id,
+        type: "result",
+        eat: eat,
+        bite: bite,
+        call_number: called_num,
+      }
+      this.send(result_obj)
+    },
 
       // 相手から結果を受け取った後の処理
       recieved: function(message){
@@ -197,14 +201,19 @@ export default {
         }
         this.judge_datas.unshift(judge_data_obj)
         console.log(this.judge_datas)
-        this.change_history_flag() 
+        this.true_history_flag() 
       },
 
       // ランダムな文字列の生成(user_idに使う)
       get_unique_str: function(){
         var strong = 1000;
         return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
-      }
+      },
+
+      // コール画面の再レンダリング
+      reset_btn_number() {
+        this.reset_key++
+      },
     },
 }
 </script>
