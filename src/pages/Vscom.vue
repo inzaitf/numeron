@@ -12,6 +12,7 @@
       </select-digit>
     </v-container>
 
+    <v-container>
     <!-- コール画面 -->
     <btn-number
       v-if="judge_btn_num_flag"
@@ -28,6 +29,8 @@
       :judge_data='judge_datas'
     >
     </history>
+
+    </v-container>
 
   </v-app>
 </template>
@@ -83,11 +86,13 @@ export default {
     // コールナンバーの設定
     set_judge_num: function(judge_num){
       this.judge_num = judge_num
+      console.log(this.judge_num)
     },
 
     // 桁数の取得
     set_digit_num: function(digit_num){
       this.digit_num = digit_num
+      console.log("yo")
     },
 
     // 与えた桁数分ランダムな数字を生成
@@ -105,6 +110,7 @@ export default {
 
     // eatとbiteの判定
     judge: function(){
+      console.log(this.judge_num)
       var eat = 0
       var bite = 0
       for (var index_c in this.cp_num) {

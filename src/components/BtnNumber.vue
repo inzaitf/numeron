@@ -11,7 +11,7 @@
                             justify="center"
                             align="center"
                         >
-                            <v-col cols="6" class="text-center">
+                            <v-col cols="6" >
                                 <h2 class="display-3 font-weight-bold light-blue--text text--lighten-3">
                                     {{number[i-1]}}
                                 </h2>
@@ -24,18 +24,20 @@
 
         <!-- 数字選択ボタン画面 -->
         <v-container>
-            <v-row align="top">
-                <v-col cols="4">
+            <v-row align="center" justify="center">
+                <v-col cols="8" xs="4">
                     <v-row align="center" justify="center">
-                        <v-col v-for="(btn_num, index) in btn_num" :key="btn_num.id" cols="4" class="m-auto">
+                        <v-col v-for="(btn, index) in btn_num" :key="btn.id" cols="4" class="ma-auto">
                             <v-row align="center" justify="center">
-                                <v-btn v-if="!(btn_num.clicked)"
+                                <v-btn v-if="!(btn.clicked)"
                                     id="number_btn"
                                     v-on:click="click_btn_num(index); to_disable_btn()"
                                     class="mx-2"
                                     fab large
                                     outlined
                                     color="light-blue lighten-1"
+                                    height="150px"
+                                    width="150px"
                                 >
                                     {{index}}
                                 </v-btn>
@@ -43,28 +45,42 @@
                                     id="number_btn"
                                     v-on:click="click_btn_num(index); to_disable_btn()"
                                     class="mx-2"
-                                    fab large dark color="cyan lighten-5"
+                                    fab
+                                    dark color="cyan lighten-5"
+                                    height="1s50px"
+                                    width="150px"
                                 >
                                     {{index}}
                                 </v-btn>
                             </v-row>
                         </v-col>
+            <!-- <v-row align="end" justify="end"> -->
+                <v-row align="end" justify="start">
+                <v-col cols="4" class="ma-auto"></v-col>
+                </v-row>
+                <v-col cols="4" xs="4" class="ma-auto">
+                    <!-- 実行ボタン -->
+                    <v-row align="end" justify="center">
+                    <v-btn
+                        id="number_btn"
+                        v-on:click="clicked_btn"
+                        :disabled='disable'
+                        class="mx-2"
+                        fab
+                        outlined
+                        color="light-blue lighten-1"
+                        height="150px"
+                        width="150px"
+                    >
+                        {{call_btn_name}}
+                    </v-btn>
+                    </v-row>
+                </v-col>
+            <!-- </v-row> -->
                     </v-row>
                 </v-col>
             </v-row>
 
-            <!-- 実行ボタン -->
-            <v-btn
-                id="number_btn"
-                v-on:click="clicked_btn"
-                :disabled='disable'
-                class="mx-2"
-                fab large
-                outlined
-                color="light-blue lighten-1"
-            >
-                {{call_btn_name}}
-            </v-btn>
 
         </v-container>
 
@@ -115,8 +131,8 @@ export default {
                         break
                     }
                 }
+            console.log("数字押したよ"+this.number)
             }
-            this.$emit('set_num', this.number)
         },
         // 桁数以上入力できないようにする
         to_disable_btn: function() {
@@ -129,7 +145,9 @@ export default {
         },
 
         clicked_btn: function(){
-            this.$emit('clicked_btn')  
+            this.$emit('set_num', this.number)
+            console.log("btnnumえみっとしたよ"+this.number)
+            this.$emit('clicked_btn')
             for(var i in this.number){
                 this.btn_num[this.number[i]].clicked = false
                 this.number[i] = null

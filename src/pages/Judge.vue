@@ -17,7 +17,6 @@
     <btn-number
         v-if="my_btn_num_flag"
         :digit_num='digit_num'
-        :number='my_num'
         @set_num="set_my_num"
         @clicked_btn='change_my_btn_num_flag(); change_judge_btn_num_flag()'
         call_btn_name='設定'
@@ -29,7 +28,7 @@
       v-if="judge_btn_num_flag"
       :digit_num='digit_num'
       @set_num="set_judge_num"
-      @clicked_btn='change_history_flag(); judge()'
+      @clicked_btn='change_history_flag(); judge();'
       call_btn_name='判定'
     >
     </btn-number>
@@ -91,7 +90,7 @@ export default {
         this.judge_btn_num_flag = !this.judge_btn_num_flag
     },
 
-    // 履歴画面の制御フラグ// 履歴画面の制御フラグ変更
+    // 履歴画面の制御フラグ
     change_history_flag: function() {
       this.history_flag = true
     },
@@ -104,20 +103,26 @@ export default {
     // 自分の数字の設定
     set_my_num: function(my_num){
       this.my_num = my_num
+      console.log("mynum変えるよ"+this.my_num)
     },
 
     // コールナンバーの設定
     set_judge_num: function(judge_num){
       this.judge_num = judge_num
+      console.log(this.judge_num)
+      console.log("judgenum設定したよ"+this.my_num)
+
     },
 
     // eatとbiteの判定
     judge: function(){
+      console.log("eatbite判定したよ"+this.my_num)
       var eat = 0
       var bite = 0
-      for (var index_c in this.cp_num) {
+
+      for (var index_c in this.my_num) {
         for (var index_j in this.judge_num) {
-          if (this.cp_num[index_c] === this.judge_num[index_j]) {
+          if (this.my_num[index_c] === this.judge_num[index_j]) {
             if (index_c === index_j) {
               eat++;
             } else {

@@ -1,7 +1,9 @@
 <template>
     <v-app>
+        <v-container>
+            <v-row align="start" justify="center">
         <v-col cols="4">
-            <v-row align="top" justify="end">
+            <v-row align="start" justify="end">
                 <v-col cols="12">
                     <v-card
                         class="mx-auto overflow-y-auto"
@@ -25,6 +27,9 @@
                 </v-col>
             </v-row>
         </v-col>
+
+            </v-row>
+        </v-container>
     </v-app>
 </template>
 
