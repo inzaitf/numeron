@@ -1,14 +1,25 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import * as actions from "js/store/actions";
-import * as getters from "js/store/getters";
-import { state, mutations } from "js/store/mutations";
+import createPersistedState from "vuex-persistedstate";
+import auth from "@/store/modules/auth";
+import online from "@/store/modules/online";
+import judge from "@/store/modules/judge";
+import vscom from "@/store/modules/vscom";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  actions,
-  getters,
-  state,
-  mutations,
+  modules: {
+    online,
+    auth,
+    judge,
+    vscom,
+  },
+  plugins: [
+    createPersistedState({
+      key: "numeron",
+      paths: ["auth.user_id"],
+      storage: window.sessionStorage,
+    }),
+  ],
 });

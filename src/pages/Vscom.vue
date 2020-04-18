@@ -1,79 +1,144 @@
 <template>
-    <v-app>
-        <v-container v-if="ok1">
-             <v-row justify="center">
-              <v-row>
-                <v-col 
-                  class="title font-weight-bold text-center light-blue--text text--lighten-1"
-                  cols="12"
-                  >
-                  何桁で遊ぶ?
-                </v-col>
-              </v-row>
-            </v-row>
-            <v-row justify="center">
-                <v-col 
-                  v-for="play_btn_number in play_btn_numbers" :key="play_btn_number.id"
-                  cols="2"              
-                >
-                  <v-row justify="center">
-                    <v-btn
-                      id="number_btn"
-                      v-on:click="click_auto_play_button_number(play_btn_number)"
-                      class="mx-2"
-                      fab large 
-                      outlined
-                      color="light-blue lighten-1"
-                    >
-                      {{play_btn_number}}
-                    </v-btn>  
-                  </v-row>
-                </v-col>
-            </v-row>  
-        </v-container>
-        <judge-btn-number
-          :digit_number='digit_number' 
-          :ok2='ok2'
-          :my_number_lists='my_number_lists'
-          :my_number='my_number'
-          :judge_number_lists='judge_number_lists'
-        ></judge-btn-number>
-    </v-app>
+  <v-app>
+    <!-- 桁数設定画面 -->
+    <v-container v-if="digit_flag">
+      <!-- 桁数を選択 -->
+      <select-digit
+        v-if="digit_flag"
+        mutation='vscom/set_digit_num'
+        message="何桁で遊ぶ?"
+        @click_btn="set_cp_num(); false_digit_flag(); true_call_num_flag()"
+      >
+      </select-digit>
+    </v-container>
+
+    <v-container>
+    <!-- コール画面 -->
+    <btn-number
+      v-if="call_num_flag"
+      :key="reset_key"
+      :digit_num='digit_num'
+      mutation='vscom/set_call_num'
+      @clicked_btn='true_history_flag(); reset_btn_number(); judge()'
+      call_btn_name='判定'
+    >
+    </btn-number>
+
+    <!-- コール履歴 -->
+    <history
+      v-if='history_flag'
+      :judge_data='judge_datas'
+    >
+    </history>
+
+    </v-container>
+
+  </v-app>
 </template>
 
 <script>
-import JudgeBtnNumber from '@/components/JudgeBtnNumber.vue'
+import BtnNumber from '@/components/BtnNumber.vue'
+import SelectDigit from '@/components/SelectDigit.vue'
+import History from '@/components/History'
+
 export default {
-    name: "Vscom",
-    components: {
-        JudgeBtnNumber,
+  name: "Vscom",
+
+  components: {
+    BtnNumber,
+    SelectDigit,
+    History,
+  },
+
+  data: () => ({
+    play_btn_numbers: [3,4,5],  // 桁数の候補
+    judge_datas: [],            // 履歴に表示するデータ
+    reset_key: 0,               // コール画面用のリセットキー
+  }),
+
+  props: {
+  },
+
+  computed: {
+    // 桁数設定画面の制御フラグ
+    digit_flag: function(){
+      return this.$store.state.vscom.digit_flag
     },
-    methods: {
-        click_auto_play_button_number(play_btn_number) {
-            this.ok1 = false
-            this.ok2 = true
-            this.digit_number = play_btn_number
-            this.judge_number_lists = new Array(this.digit_number)
-            var max_index = 10;
-            const numbers = [0,1,2,3,4,5,6,7,8,9];
-            for(var i = 0; i < this.digit_number ; i++){   
-              var index = Math.floor( Math.random() * max_index );
-              this.my_number_lists.push(numbers[index]);
+    // 桁数
+    digit_num: function(){
+      return this.$store.state.vscom.digit_num
+    },
+
+    // CPナンバー
+    cp_num: function(){
+      return this.$store.state.vscom.cp_num
+    },
+
+    // コールナンバー設定画面制御フラグ
+    call_num_flag: function(){
+      return this.$store.state.vscom.call_num_flag
+    },
+    // コールナンバー
+    call_num: function(){
+      return this.$store.state.vscom.call_num
+    },
+
+    // 履歴画面の制御フラグ
+    history_flag: function(){
+      return this.$store.state.vscom.history_flag
+    },
+  },
+
+  methods: {
+    // 桁数選択画面の制御フラグ無効化
+    false_digit_flag() {
+      this.$store.commit('vscom/false_digit_flag')
+    },
+    // コール画面の制御フラグの有効化
+    true_call_num_flag() {
+      this.$store.commit('vscom/true_call_num_flag')
+    },
+    // 履歴画面の制御フラグの有効化
+    true_history_flag: function() {
+      this.$store.commit('vscom/true_history_flag')
+    },
+
+    // 与えた桁数分ランダムな数字を生成
+    set_cp_num: function() {
+      this.$store.commit('vscom/set_cp_num', this.digit_num)
+    },
+
+    // eatとbiteの判定
+    judge: function(){
+      var eat = 0
+      var bite = 0
+
+      for (var index_c in this.cp_num) {
+        for (var index_j in this.call_num) {
+          if (this.cp_num[index_c] == this.call_num[index_j]) {
+            if (index_c == index_j) {
+              eat++;
+            } else {
+              bite++;
             }
-            this.my_number = this.my_number_lists.join("");     
-        },
+          }
+        }
+      }
+      this.eat = eat
+      this.bite = bite
+      var call_num = this.call_num.join("")
+      var judge_data_obj = {
+        eat: this.eat,
+        bite: this.bite,
+        call_number: call_num,
+      }
+      this.judge_datas.unshift(judge_data_obj)
     },
-    data: () => ({
-        ok1: true,
-        ok2: false,
-        digit_number: null,
-        play_btn_numbers: [3,4,5],
-        my_number_lists: [],
-        my_number: null,
-        judge_number_lists: [],
-    }),
 
-    
-
+    // コール画面の再レンダリング
+    reset_btn_number() {
+      this.reset_key++
+    }
+  },
 }
 </script>
