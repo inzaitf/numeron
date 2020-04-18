@@ -112,8 +112,6 @@ export default {
     judge: function(){
       var eat = 0
       var bite = 0
-      console.log("cπナムだよ"+this.cp_num)
-      console.log("callナムだよ"+this.call_num)
 
       for (var index_c in this.cp_num) {
         for (var index_j in this.call_num) {

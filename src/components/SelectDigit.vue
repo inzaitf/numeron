@@ -53,7 +53,6 @@ export default {
     ],
     methods: {
         click_digit_btn: function(digit_num){
-            console.log(this.mutation)
             this.$store.commit(this.mutation, digit_num)
             this.$emit('click_btn')
         },

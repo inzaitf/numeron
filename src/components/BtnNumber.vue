@@ -130,7 +130,6 @@ export default {
                         break
                     }
                 }
-            console.log("数字押したよ"+this.number)
             }
         },
         // 桁数以上入力できないようにする

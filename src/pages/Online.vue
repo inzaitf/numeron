@@ -116,16 +116,13 @@ export default {
           if (m.user_id != self.user_id) {
             switch (m.type) {
               case 'ready':
-                console.log("readyきました")
                 self.$store.commit('online/yes_ready')
                 self.$store.commit('online/true_my_num_flag')
                 break;
               case 'call':
-                console.log("コールきました")
                 self.judge(m.call_number)
                 break
               case 'result':
-                console.log("結果きました")
                 self.recieved(m)
                 break
             }
@@ -185,8 +182,8 @@ export default {
       var result_obj = {
         user_id: this.user_id,
         type: "result",
-        eat: eat,
-        bite: bite,
+        result_eat: eat,
+        result_bite: bite,
         call_number: called_num,
       }
       this.send(result_obj)
@@ -195,12 +192,11 @@ export default {
       // 相手から結果を受け取った後の処理
       recieved: function(message){
         var judge_data_obj = {
-          eat: message.eat,
-          bite: message.bite,
-          judge_number: message.call_number,
+          eat: message.result_eat,
+          bite: message.result_bite,
+          call_number: message.call_number.join(""),
         }
         this.judge_datas.unshift(judge_data_obj)
-        console.log(this.judge_datas)
         this.true_history_flag() 
       },
 
