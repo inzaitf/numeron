@@ -133,7 +133,7 @@ export default {
       }
       this.eat = eat
       this.bite = bite
-      var judge_num = this.judge_num.join("")
+      var judge_num = Number(this.judge_num.join(""))
       var judge_data_obj = {
         eat: this.eat,
         bite: this.bite,
