@@ -15,12 +15,11 @@
 
     <!-- 自分の数字の設定画面 -->
     <btn-number
-        v-if="my_btn_num_flag"
-        :digit_num='digit_num'
-        :number='my_num'
-        @set_num="set_my_num"
-        @clicked_btn='change_my_btn_num_flag(); change_judge_btn_num_flag()'
-        call_btn_name='設定'
+      v-if="my_btn_num_flag"
+      :digit_num='digit_num'
+      @set_num="set_my_num"
+      @clicked_btn='change_my_btn_num_flag(); change_judge_btn_num_flag()'
+      call_btn_name='設定'
     >
     </btn-number>
 
@@ -91,7 +90,7 @@ export default {
         this.judge_btn_num_flag = !this.judge_btn_num_flag
     },
 
-    // 履歴画面の制御フラグ// 履歴画面の制御フラグ変更
+    // 履歴画面の制御フラグ
     change_history_flag: function() {
       this.history_flag = true
     },
@@ -128,7 +127,7 @@ export default {
       }
       this.eat = eat
       this.bite = bite
-      var judge_num = this.judge_num.join("")
+      var judge_num = Number(this.judge_num.join(""))
       var judge_data_obj = {
         eat: this.eat,
         bite: this.bite,

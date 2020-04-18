@@ -116,7 +116,6 @@ export default {
                     }
                 }
             }
-            this.$emit('set_num', this.number)
         },
         // 桁数以上入力できないようにする
         to_disable_btn: function() {
@@ -129,6 +128,7 @@ export default {
         },
 
         clicked_btn: function(){
+            this.$emit('set_num', this.number)
             this.$emit('clicked_btn')  
             for(var i in this.number){
                 this.btn_num[this.number[i]].clicked = false
