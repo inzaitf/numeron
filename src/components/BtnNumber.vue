@@ -1,20 +1,25 @@
 <template>
-    <v-app>
+    <v-app style="height: 1300px;">
 
         <!-- ナンバーの表示画面 -->
-        <v-container>
-            <v-row justify="center">
-                <v-col v-for="i in digit_num" :key="i.id" cols="2">
-                    <v-card color="lightblue lighten-1" style="border: solid 1px #29B6F6; height: 100px;">
+        <v-container style="height: 400px; ">
+            <v-row align="center" justify="center" style="height: 100%;">
+                <v-col v-for="i in digit_num" :key="i.id" cols="2" class="mx-3">
+                    <v-card 
+                    color="lightblue lighten-1" 
+                    style="border: solid 1px #29B6F6; height: 200px; width:200px;"
+                    >
                         <v-row
-                            style="height: 100px;"
+                            style="height: 100%;"
                             justify="center"
                             align="center"
                         >
                             <v-col cols="6" >
-                                <h2 class="display-3 font-weight-bold light-blue--text text--lighten-3">
-                                    {{number[i-1]}}
-                                </h2>
+                                <v-row align="center" justify="center">
+                                    <h2 class="display-3 font-weight-bold light-blue--text text--lighten-3">
+                                        {{number[i-1]}}
+                                    </h2>
+                                </v-row>
                             </v-col>
                         </v-row>
                     </v-card>
@@ -23,7 +28,7 @@
         </v-container>
 
         <!-- 数字選択ボタン画面 -->
-        <v-container>
+        <v-container style="height: 900px;">
             <v-row align="center" justify="center">
                 <v-col cols="8" xs="4">
                     <v-row align="center" justify="center">
@@ -54,36 +59,29 @@
                                 </v-btn>
                             </v-row>
                         </v-col>
-            <!-- <v-row align="end" justify="end"> -->
-                <v-row align="end" justify="start">
-                <v-col cols="4" class="ma-auto"></v-col>
-                </v-row>
-                <v-col cols="4" xs="4" class="ma-auto">
-                    <!-- 実行ボタン -->
-                    <v-row align="end" justify="center">
-                    <v-btn
-                        id="number_btn"
-                        v-on:click="clicked_btn();"
-                        :disabled='disable'
-                        class="mx-2"
-                        fab
-                        outlined
-                        color="light-blue lighten-1"
-                        height="150px"
-                        width="150px"
-                    >
-                        {{call_btn_name}}
-                    </v-btn>
-                    </v-row>
-                </v-col>
-            <!-- </v-row> -->
+                        <v-col cols="4" class="ma-auto"></v-col>
+                        <v-col cols="4" xs="4" class="ma-auto">
+                            <!-- 実行ボタン -->
+                            <v-row align="end" justify="center">
+                                <v-btn
+                                    id="number_btn"
+                                    v-on:click="clicked_btn();"
+                                    :disabled='disable'
+                                    class="mx-2"
+                                    fab
+                                    outlined
+                                    color="light-blue lighten-1"
+                                    height="150px"
+                                    width="150px"
+                                >
+                                    {{call_btn_name}}
+                                </v-btn>
+                            </v-row>
+                        </v-col>
                     </v-row>
                 </v-col>
             </v-row>
-
-
         </v-container>
-
     </v-app>
 </template>
 

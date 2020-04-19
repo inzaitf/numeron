@@ -13,26 +13,25 @@
     </v-container>
 
     <v-container>
-    <!-- コール画面 -->
-    <btn-number
-      v-if="call_num_flag"
-      :key="reset_key"
-      :digit_num='digit_num'
-      mutation='vscom/set_call_num'
-      @clicked_btn='true_history_flag(); reset_btn_number(); judge()'
-      call_btn_name='判定'
-    >
-    </btn-number>
-
-    <!-- コール履歴 -->
-    <history
-      v-if='history_flag'
-      :judge_data='judge_datas'
-    >
-    </history>
-
+      <v-row align="center" justify="center">
+        <!-- コール画面 -->
+        <btn-number
+          v-if="call_num_flag"
+          :key="reset_key"
+          :digit_num='digit_num'
+          mutation='vscom/set_call_num'
+          @clicked_btn='true_history_flag(); reset_btn_number(); judge()'
+          call_btn_name='判定'
+        >
+        </btn-number>
+        <!-- コール履歴 -->
+        <history
+          v-if='history_flag'
+          :judge_data='judge_datas'
+        >
+        </history>
+      </v-row>
     </v-container>
-
   </v-app>
 </template>
 
