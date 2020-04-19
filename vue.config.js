@@ -13,5 +13,9 @@ module.exports = {
         '@': path.resolve(__dirname, 'src/'), 
       },
     },
+    performance: {
+      maxEntrypointSize: 600000,
+      maxAssetSize: 300000
+    }
   },
 };
