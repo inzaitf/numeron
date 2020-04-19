@@ -1,7 +1,7 @@
 <template>
         <router-link :to="link_name">
             <v-btn
-                class="mx-2 my-12"
+                class="mx-2 my-12 elevation-24"
                 fab
                 outlined
                 :color="btn_color"

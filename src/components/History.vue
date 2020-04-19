@@ -1,8 +1,8 @@
 <template>
-    <v-app>
-        <v-container>
-            <v-row align="start" justify="center">
-                <v-col cols="4">
+    <v-app style="width:300px;">
+        <v-container class="width:500px;">
+            <!-- <v-row align="start" justify="center">
+                <v-col cols="4"> -->
                     <v-row align="end" justify="start">
                         <v-col cols="12">
                             <v-card
@@ -11,9 +11,9 @@
                                 max-height="300px"
                             >
                                 <v-toolbar color="light-blue lighten-1" dark>
-                                    <v-row justify="center">
+                                    <!-- <v-row justify="center"> -->
                                         <v-toolbar-title>履歴</v-toolbar-title>
-                                    </v-row>
+                                    <!-- </v-row> -->
                                 </v-toolbar>
                                 <v-list-item v-for="data in judge_data" :key="data.id">
                                     <v-list-item-content>
@@ -26,8 +26,8 @@
                             </v-card>
                         </v-col>
                     </v-row>
-                </v-col>
-            </v-row>
+                <!-- </v-col>
+            </v-row> -->
         </v-container>
     </v-app>
 </template>

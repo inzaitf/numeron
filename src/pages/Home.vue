@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- タイトルロゴ -->
-    <numeron-title title="NumerOn"></numeron-title>
+    <numeron-title  title="NumerOn"></numeron-title>
 
     <v-container fluid>
 
@@ -51,16 +51,16 @@
               </v-row>
             </v-col>
             <!-- JUDGEモード -->
-            <v-col cols='12' xs="3">
-              <v-row align="center" justify="center">
+            <!-- <v-col cols='12' xs="3">
+              <v-row align="center" justify="center"> -->
                 <mode-btn
                   btn_color="light-blue lighten-1"
                   mode_name="JUDGE"
                   link_name="/judge"
                 >
                 </mode-btn>
-              </v-row>
-            </v-col>
+              <!-- </v-row>
+            </v-col> -->
           </v-row>
         </v-col>
       </v-row>
