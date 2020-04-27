@@ -1,4 +1,5 @@
 <template>
+<v-app>
     <v-simple-table fixed-header>
         <v-row justify="center">
           <v-col cols="6">
@@ -10,6 +11,7 @@
           </v-col>
         </v-row>
       </v-simple-table>
+</v-app>
 </template>
 
 <script>
@@ -18,5 +20,12 @@
     props: [
       'title',
     ],
+    methods: {
+      get_id() {
+        this.axios.get("http://localhost:3000/users")
+          .then((response)=> {console.log(response);})
+          .catch((error)=> {console.log(error);})
+      }
+    }
   }
 </script>
