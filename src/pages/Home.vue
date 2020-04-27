@@ -1,19 +1,16 @@
 <template>
   <v-app>
-    <!-- タイトルロゴ -->
-    <numeron-title  title="NumerOn"></numeron-title>
-
-    <v-container fluid>
 
       <!-- 説明画面 -->
-      <v-row align="center" justify="center">
+    <v-container style="background-image: url('https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg');" fluid>
+      <v-row align="center" justify="center" no-gatters>
         <v-col cols='12' xs="3">
           <v-row align="center" justify="center">
             ルール
           </v-row>
         </v-col>
       </v-row>
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="center" >
         <v-col cols='12' xs="3">
           <v-row align="center" justify="center">
             遊ぶモード
@@ -23,7 +20,7 @@
     </v-container>
 
       <!-- モード選択画面 -->
-    <v-container style="height: 100%;" fluid>
+    <v-container style="height: 100% ;" fluid>
       <v-row align="center" justify="center" style="height: 100%;">
         <v-col cols="12" style="height: 100%;">
           <v-row align="center" justify="center" ma-5 >
@@ -70,7 +67,6 @@
 </template>
 
 <script>
-import NumeronTitle from "@/components/NumeronTitle.vue"
 import ModeBtn from '@/components/ModeBtn.vue'
 
 export default {
@@ -78,7 +74,6 @@ export default {
   name: 'Home',
 
   components: {
-    NumeronTitle,
     ModeBtn
   },
 
