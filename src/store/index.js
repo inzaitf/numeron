@@ -6,6 +6,7 @@ import online from "@/store/modules/online";
 import judge from "@/store/modules/judge";
 import vscom from "@/store/modules/vscom";
 
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -19,7 +20,7 @@ export default new Vuex.Store({
     createPersistedState({
       key: "numeron",
       paths: ["auth.user_id"],
-      storage: window.sessionStorage,
-    }),
-  ],
+      storage: window.sessionStorage
+    })
+  ]
 });

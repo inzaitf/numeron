@@ -191,7 +191,7 @@ export default {
 
       // 相手から結果を受け取った後の処理
       recieved: function(message){
-        console.log("メッセ")
+        
         var judge_data_obj = {
           eat: message.result_eat,
           bite: message.result_bite,
