@@ -8,11 +8,11 @@
       >
         <v-container>
           <v-row align="start" justify="start">
-            <v-col cols="1">
-              <v-app-bar-nav-icon v-if="is_small" @click="drawer = true" />
+            <v-col cols="1" v-if="is_small">
+              <v-app-bar-nav-icon @click="drawer = true" />
             </v-col>
-            <v-col cols="3">
-              <v-row align="center" justify="start">
+            <v-col :cols="is_small ? 10 : 4">
+              <v-row align="center" :justify="is_small ? 'center' : 'start'">
                 <v-toolbar-title
                   class=" display-3 font-weight-bold"
                   style="color:#C5CAE9;"
@@ -30,25 +30,61 @@
                 class="mx-auto"
               >
                 <v-col cols="1">
-                  <router-link to="/" style="color: white">Home</router-link>
+                  <router-link
+                    to="/"
+                    style="color: white; text-decoration:none;"
+                    >Home</router-link
+                  >
                 </v-col>
                 <v-col cols="1">
-                  <router-link to="/vscom" style="color: white">VScom</router-link>
+                  <router-link
+                    to="/vscom"
+                    style="color: white ; text-decoration:none;"
+                    >VScom</router-link
+                  >
                 </v-col>
                 <v-col cols="1">
-                  <router-link to="/online" style="color: white">Online</router-link>
+                  <router-link
+                    to="/online"
+                    style="color: white ; text-decoration:none;"
+                    >Online</router-link
+                  >
                 </v-col>
                 <v-col cols="1">
-                  <router-link to="/judge" style="color: white">Judge</router-link>
+                  <router-link
+                    to="/judge"
+                    style="color: white ; text-decoration:none;"
+                    >Judge</router-link
+                  >
                 </v-col>
                 <v-col cols="1" v-if="!is_login">
-                  <router-link to="/login" style="color: white">Login</router-link>
+                  <router-link
+                    to="/login"
+                    style="color: white ; text-decoration:none;"
+                    >Login</router-link
+                  >
                 </v-col>
                 <v-col cols="1" v-if="!is_login">
-                  <router-link to="/signup" style="color: white">Signup</router-link>
+                  <router-link
+                    to="/signup"
+                    style="color: white ; text-decoration:none;"
+                    >Signup</router-link
+                  >
                 </v-col>
-                <v-col  cols="1" v-if="is_login" >
-                  <router-link to="/" @click.native="logout" style="color: white">logout</router-link>
+                <v-col cols="1" v-if="is_login">
+                  <router-link
+                    to="/"
+                    @click.native="logout"
+                    style="color: white ; text-decoration:none;"
+                    >logout</router-link
+                  >
+                </v-col>
+                <v-col cols="1" v-if="is_login">
+                  <router-link
+                    to="/account"
+                    style="color: white ; text-decoration:none;"
+                    >Account</router-link
+                  >
                 </v-col>
               </v-row>
             </v-col>
@@ -63,10 +99,30 @@
             <side-bar icon="mdi-robot" menu="vscom" link="/vscom" />
             <side-bar icon="mdi-lan-connect" menu="online" link="/online" />
             <side-bar icon="mdi-gavel" menu="judge" link="/judge" />
-            <side-bar icon="mdi-account" menu="account" link="/account" />
-            <side-bar v-if="!is_login" icon="mdi-account-plus" menu="signup" link="/signup" />
-            <side-bar v-if="!is_login" icon="mdi-import" menu="login" link="/login" />
-            <side-bar v-if="is_login" icon="mdi-export" menu="logout" link="/logout" />
+            <side-bar
+              v-if="!is_login"
+              icon="mdi-account-plus"
+              menu="signup"
+              link="/signup"
+            />
+            <side-bar
+              v-if="!is_login"
+              icon="mdi-import"
+              menu="login"
+              link="/login"
+            />
+            <side-bar
+              v-if="is_login"
+              icon="mdi-account"
+              menu="account"
+              link="/account"
+            />
+            <side-bar
+              v-if="is_login"
+              icon="mdi-export"
+              menu="logout"
+              link="/logout"
+            />
           </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
@@ -85,27 +141,19 @@ export default {
   data: () => ({
     drawer: false,
     is_small: true,
-    width: 0,
+    width: 0
   }),
 
   mounted() {
-    this.onResize()
-    // is_login()  {
-    //   if(this.$store.state.store_token == null) {
-    //     return false
-    //   }else{
-    //     return true
-    //   }
-    // }
+    this.onResize();
   },
 
   computed: {
     is_login() {
-      
-      if(this.$store.state.auth.store_token == null) {
-        return false
-      }else{
-        return true
+      if (this.$store.state.auth.store_token == null) {
+        return false;
+      } else {
+        return true;
       }
     }
   },
@@ -116,7 +164,6 @@ export default {
       this.is_small = this.width <= 1000;
     },
     logout() {
-      
       this.$store.dispatch("auth/do_logout");
     }
   }

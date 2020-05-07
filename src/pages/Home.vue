@@ -23,7 +23,6 @@
 
     <!-- モード選択画面 -->
     <v-container style="height: 100% ;" fluid>
-      <router-view></router-view>
     </v-container>
   </v-app>
 </template>

@@ -19,17 +19,15 @@ export const mutations = {
 
   //local storageからstoreに代入
   load(state) {
-    if(state.store_token == null)
-      state.store_token = localStorage.getItem("access_token")
+    if (state.store_token == null)
+      state.store_token = localStorage.getItem("access_token");
   },
 
   //local storage,storeからトークンを削除
   logout(state) {
-    
-    localStorage.removeItem("access_token", state.store_token)
-    state.store_token = null
+    localStorage.removeItem("access_token", state.store_token);
+    state.store_token = null;
   }
-
 };
 
 export const getters = {
@@ -39,15 +37,16 @@ export const getters = {
 };
 
 export const actions = {
+  //トークンをローカルストレージに保存
   do_save({ commit }) {
     commit("save_token");
   },
+  //local storageからstoreに代入
   do_load({ commit }) {
-    
     commit("load");
   },
+  //local storage,storeからトークンを削除
   do_logout({ commit }) {
-    
-    commit("logout")
+    commit("logout");
   }
 };
