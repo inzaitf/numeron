@@ -5,17 +5,17 @@
       <v-row align="center" justify="center" style="height: 100%;">
         <v-col v-for="i in digit_num" :key="i.id" cols="2" class="mx-3">
           <v-card
-            color="lightblue lighten-1"
-            style="border: solid 1px #29B6F6; height: 200px; width:200px;"
+          outlined
+            color="blue darken-2"
+            :style="{ 'background-image': 'url(' + card_icon + ')' }"
+            style="border: solid 1px #29B6F6; height: 200px; width:200px; background-size: cover; "
           >
             <v-row style="height: 100%;" justify="center" align="center">
               <v-col cols="6">
                 <v-row align="center" justify="center">
                   <h2
                     class="display-3 font-weight-bold light-blue--text text--lighten-3"
-                  >
-                    {{ number[i - 1] }}
-                  </h2>
+                  >{{ number[i - 1] }}</h2>
                 </v-row>
               </v-col>
             </v-row>
@@ -29,12 +29,7 @@
       <v-row align="center" justify="center">
         <v-col cols="8" xs="4">
           <v-row align="center" justify="center">
-            <v-col
-              v-for="(btn, index) in btn_num"
-              :key="btn.id"
-              cols="4"
-              class="ma-auto"
-            >
+            <v-col v-for="(btn, index) in btn_num" :key="btn.id" cols="4" class="ma-auto">
               <v-row align="center" justify="center">
                 <v-btn
                   v-if="!btn.clicked"
@@ -50,9 +45,7 @@
                   color="light-blue lighten-1"
                   height="150px"
                   width="150px"
-                >
-                  {{ index }}
-                </v-btn>
+                >{{ index }}</v-btn>
                 <v-btn
                   v-else
                   id="number_btn"
@@ -66,9 +59,7 @@
                   color="cyan lighten-5"
                   height="1s50px"
                   width="150px"
-                >
-                  {{ index }}
-                </v-btn>
+                >{{ index }}</v-btn>
               </v-row>
             </v-col>
             <v-col cols="4" class="ma-auto"></v-col>
@@ -85,9 +76,7 @@
                   color="light-blue lighten-1"
                   height="150px"
                   width="150px"
-                >
-                  {{ call_btn_name }}
-                </v-btn>
+                >{{ call_btn_name }}</v-btn>
               </v-row>
             </v-col>
           </v-row>
@@ -98,12 +87,14 @@
 </template>
 
 <script>
+import CardIcon from "@/assets/background_new.png";
 export default {
   name: "BtnNumber",
 
   props: ["digit_num", "mutation", "call_btn_name"],
 
   data: () => ({
+    card_icon: CardIcon,
     disable: true,
     btn_num: [
       { value: 0, clicked: false },
