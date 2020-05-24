@@ -2,15 +2,15 @@ var path = require("path");
 
 module.exports = {
   "transpileDependencies": [
-  "vuetify"
+    "vuetify"
   ],
   publicPath: './',
-  assetsDir: "",
+  assetsDir: "src/assets",
   configureWebpack: {
     resolve: {
       alias: {
         'vue$': 'vue/dist/vue.esm.js',
-        '@': path.resolve(__dirname, 'src/'), 
+        '@': path.resolve(__dirname, 'src/'),
       },
     },
     performance: {
